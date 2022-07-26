@@ -37,6 +37,7 @@ public class CobolToJavaApplication implements CommandLineRunner{
 
 	@Override
 	public void run(String... args) throws Exception {
+		String hola="hola   hola";
 		 InputStream file = new FileInputStream("C:\\Users\\Alldatum Business\\Downloads\\POLIZA.CBL");
 		 InputStream fileDat = new FileInputStream("C:\\Users\\Alldatum Business\\Downloads\\poliza4 (1).dat");
 		 File filePrueba = new File("C:\\Users\\Alldatum Business\\Downloads\\poliza4 (1).dat");
@@ -67,8 +68,8 @@ public class CobolToJavaApplication implements CommandLineRunner{
 	                 } catch (Exception e) {
 	                     e.printStackTrace();
 	                 }
-//	                 cadena= "¿¿¿¿¿—RAUL ALVAREZ ANDRADE¡èAR7À\f309VA71 909BªCENTRO‘ CORDOBA?”P\f\f012717145è8¿©";
-	                 cadena = "¿¿¿¿¿—FABIOLA CEBRIAN GARCIAŸ CEGF841À9?AV BENITO JUAREZ?39ŒBARR DE MEXICO‰VILLA DE REYES‰";
+//	                 cadena= "Â¿Â¿Â¿Â¿Â¿â€”RAUL ALVAREZ ANDRADEÂ¡Ã¨AR7Ã€\f309VA71 909BÂªCENTROâ€˜ CORDOBA?â€�P\f\f012717145Ã¨8Â¿Â©";
+	                 cadena = "Â¿Â¿Â¿Â¿Â¿â€”FABIOLA CEBRIAN GARCIAÅ¸ CEGF841Ã€9?AV BENITO JUAREZ?39Å’BARR DE MEXICOâ€°VILLA DE REYESâ€°";
 	                 if(vcampos == 0) {
 	                	 attribute.setValue(iFileCBLImpl.extractString(cadena,attribute.getBytes(),7));
 	                     System.out.println(attribute.getName().concat(" -> ").concat(attribute.getValue()));
