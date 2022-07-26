@@ -12,4 +12,6 @@ public class FileCBL{
     public void setAttributes(List<Attribute> attributes) {
         this.attributes = attributes;
     }
+    
+    
 }

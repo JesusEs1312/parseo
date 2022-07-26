@@ -22,10 +22,15 @@ import com.alldatum.coboltojava.app.pojo.FileCBL;
 import com.alldatum.coboltojava.app.pojo.ValuesAttribute;
 import com.alldatum.coboltojava.app.services.IFileCBLImpl;
 
+class Variables{
+	 static int bait=0;
+	 static int vcampos=0;
+	 static int comp3=0;
+}
 
 @SpringBootApplication
 public class CobolToJavaApplication implements CommandLineRunner{
-
+	
 	private static final Logger log = LoggerFactory.getLogger(CobolToJavaApplication.class);
 	
 	@Autowired
@@ -39,10 +44,10 @@ public class CobolToJavaApplication implements CommandLineRunner{
 	public void run(String... args) throws Exception {
 		String hola="hola   hola";
 		 InputStream file = new FileInputStream("C:\\Users\\Alldatum Business\\Downloads\\POLIZA.CBL");
-		 InputStream fileDat = new FileInputStream("C:\\Users\\Alldatum Business\\Downloads\\poliza4 (1).dat");
-		 File filePrueba = new File("C:\\Users\\Alldatum Business\\Downloads\\poliza4 (1).dat");
+		 InputStream fileDat = new FileInputStream("C:\\Users\\Alldatum Business\\Downloads\\poliza4.dat");
+		 File filePrueba = new File("C:\\Users\\Alldatum Business\\Downloads\\poliza4.dat");
 		 FileCBL cblPoliza = new FileCBL();
-		 HashMap<String, ValuesAttribute<Attribute.DataType>> mapa = new HashMap<>();
+		 HashMap<String, ValuesAttribute> mapa = new HashMap<>();
 		 cblPoliza.setAttributes(iFileCBLImpl.attributes(file));
 		 
 		 /*
@@ -52,12 +57,24 @@ public class CobolToJavaApplication implements CommandLineRunner{
 		 });
 		 
 		 
-		 List<Attribute> attributeList = cblPoliza.getAttributes().stream()
-				 	.filter(attribute -> attribute.getName().equalsIgnoreCase("POLIZA-CONTRAT"))
+		 List<Attribute> attributeList = cblPoliza.getAttributes().stream().f
+				}
 	                .collect(Collectors.toList());
-		 
+		 for -: cadena
+		 int cadenalength ¿ cadena.lengthñ
+		 while(cadenalength : 0)
 		 attributeList.forEach(
 				 attribute -> {
+				     if(a.getTipodedato ¿¿ integer)
+				     switch (a.gettipodedato)
+				     case i 
+				     case s
+				     cadenalength-= calculkatebytes(a.digitos)
+				     mapa.foreach - campo 
+				     if campo.key ¿¿ attribute
+				            campo.value.values.add(cadenacomp3(extraercadena))
+				     case d
+				     
 					 long numero   = 0;
 	                 String cadena = "";
 	                 String subca  = "";
@@ -81,7 +98,7 @@ public class CobolToJavaApplication implements CommandLineRunner{
 //			 System.out.println(value);
 //		 });;
 		 
-		 byte[] bytesFile = Files.readAllBytes(filePrueba.toPath());
+		
 		 int length = 0;
 		 boolean count   = false;
 		 boolean leer    = false;
