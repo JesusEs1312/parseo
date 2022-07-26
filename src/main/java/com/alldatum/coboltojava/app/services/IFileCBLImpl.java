@@ -126,150 +126,156 @@ public class IFileCBLImpl implements IFileCBL {
     }
 
     @Override
-    public String extractString(String cadena, int caracteres, int posicion, boolean occurs, int bait, int vcampos, int comp3) {
-    	String subca="", subca2="";
-		int numOccurs =10;
-		char[] flujochar= new char[2000000];
-		int avanzar=0, o=0;
-		
-		cadena.getChars(0, cadena.length(), flujochar, 0);
-			
-			if(posicion>0) {
-				avanzar = (int)flujochar[posicion-1];
-			}
-			//System.out.println("avanzar= "+ avanzar);
-			
-			
-			if(occurs) {
-				for(int l=posicion; l<posicion+caracteres; l++) {
-					Variables.bait=l;
-					o=l;
-					if(flujochar[l]=='¿') {
-						break;
-					}
-					subca+=flujochar[l];
-					//System.out.println("subca= "+ subca);
-					//System.out.println("l= "+ l);
-					
-			}
-				for(int j=0; j<=numOccurs; j++) {
-					if(flujochar[o+1]=='¿') {
-						Variables.bait++;
-					}
-					else {
-						break;
-					}
-					o++;
-				}
-				Variables.bait+=2;
-				//System.out.println("subca= "+ subca);
-			}
-			else {
-			if(Variables.comp3==0) {
-			if(avanzar>=caracteres) {//Avanzar es mayor que los caracteres
-				Variables.vcampos=1;
-				for(int l=posicion; l<posicion+caracteres; l++) {
-					if(flujochar[l]!=32 && flujochar[l]!=46 &&flujochar[l]!=44 && flujochar[l]!=40 && flujochar[l]!=41 &&flujochar[l]!=38 && flujochar[l]!=45 && (flujochar[l]<48 &&flujochar[l]>57) && (flujochar[l]<65) || flujochar[l]>90) {
-						break;
-					}
-						subca+=flujochar[l];
-						//System.out.println("subca= "+ subca);
-						//System.out.println("l= "+ l);
-						Variables.bait=l;
-				}
-			Variables.bait+=1;
-				//System.out.println("subca= "+ subca);
-				/*for(int l=variables.bait+1; l<posicion+avanzar; l++) {
-					subca2+=flujochar[l];
-					System.out.println("subca2= "+ subca2);
-					System.out.println("l= "+ l);
-					variables.bait=l;
-				}*/
-				//System.out.println("subca2= "+ subca2);
-			}
-			else { //Avanzar es menor a los caracteres
-				
-				for(int l=posicion; l<posicion+avanzar; l++) {
-					if(flujochar[l]!=32 && flujochar[l]!=46 &&flujochar[l]!=44 && flujochar[l]!=40 && flujochar[l]!=41 &&flujochar[l]!=38 && flujochar[l]!=45 && (flujochar[l]<48 &&flujochar[l]>57) && (flujochar[l]<65) || flujochar[l]>90) {
-						break;
-					}
-						subca+=flujochar[l];
-						//System.out.println("subca= "+ subca);
-						//System.out.println("l= "+ l);
-						Variables.bait=l;
-						//System.out.println(variables.bait);	
-				}Variables.bait++;
-				//System.out.println("subca= "+ subca);
-				//System.out.println("flujochar[variables.bait+1]= "+ flujochar[variables.bait+1]);
-				if(flujochar[Variables.bait]==192) {
-					subca+='0';
-					subca+='0';
-					Variables.bait++;
-					for(int l=Variables.bait+1; l<posicion+caracteres; l++) {
-						
-						if(flujochar[l]=='?' || flujochar[l]=='Š') {
-							break;
-						}
-						else {
-						subca+=flujochar[l];
-						//System.out.println("subca= "+ subca);
-						//System.out.println("l= "+ l);
-						Variables.bait=l;
-						//System.out.println(variables.bait);	
-						}
-				} //System.out.println("subca= "+ subca);
-					if(subca.length()==caracteres) {
-						Variables.bait--;
-					}else {
-					Variables.bait++;
-					}
-				}
-				if(flujochar[Variables.bait]==232) {
-					subca+=flujochar[Variables.bait+1];
-					subca+=flujochar[Variables.bait+1];
-					subca+=flujochar[Variables.bait+1];
-					Variables.bait+=3;
-					
-					for(int l=Variables.bait; l<posicion+caracteres; l++) {
-						
-						if(flujochar[l]=='?' || flujochar[l]=='Š') {
-							break;
-						}
-						else {
-						subca+=flujochar[l];
-						//System.out.println("subca= "+ subca);
-						//System.out.println("l= "+ l);
-						//variables.bait=l;
-						//System.out.println(variables.bait);	
-						}
-				}
-					if(subca.length()==caracteres) {
-						Variables.bait--;
-					}else {
-					Variables.bait++;
-					}
-				}
-				//System.out.println("subca= "+ subca);
-				//variables.bait++;
-			}
-			}else {
-				for(int l=posicion; l<posicion+caracteres; l++) {
-					if(flujochar[l]!=32 && (flujochar[l]>0 &&flujochar[l]<48) || ((flujochar[l]>57 &&flujochar[l]<65)) || (flujochar[l]>90)) {
-						Variables.bait=l;
-						break; 
-					}else {
-					subca+=flujochar[l];
-					//System.out.println("subca= "+ subca);
-					//System.out.println("l= "+ l);
-					Variables.bait=l;
-					}
-			}
-			}
+    public String extractString(String cadena, int caracteres, int posicion, boolean occurs, int vcampos) {
+    	if(Variables.vcampos==0) {
+    		String subca="";
+    		int numOccurs =10;
+    		char[] flujochar= new char[2000000];
+    		int avanzar=0, o=0;
+    		
+    		cadena.getChars(0, cadena.length(), flujochar, 0);
+    			
+    			if(posicion>0) {
+    				avanzar = (int)flujochar[posicion-1];
+    			}
+    			//System.out.println("avanzar= "+ avanzar);
+    			
+    			
+    			if(occurs) {
+    				for(int l=posicion; l<posicion+caracteres; l++) {
+    					Variables.bait=l;
+    					o=l;
+    					if(flujochar[l]=='¿') {
+    						break;
+    					}
+    					subca+=flujochar[l];
+    					//System.out.println("subca= "+ subca);
+    					//System.out.println("l= "+ l);
+    					
+    			}
+    				for(int j=0; j<=numOccurs; j++) {
+    					if(flujochar[o+1]=='¿') {
+    						Variables.bait++;
+    					}
+    					else {
+    						break;
+    					}
+    					o++;
+    				}
+    				Variables.bait+=1;
+    				//System.out.println("subca= "+ subca);
+    			}
+    			else {
+    			if(Variables.comp3==0) {
+    			if(avanzar>=caracteres) {//Avanzar es mayor que los caracteres
+    				Variables.vcampos=1;
+    				for(int l=posicion; l<posicion+caracteres; l++) {
+    					if(flujochar[l]!=32 && flujochar[l]!=46 &&flujochar[l]!=44 && flujochar[l]!=40 && flujochar[l]!=41 &&flujochar[l]!=38 && flujochar[l]!=45 && (flujochar[l]<48 &&flujochar[l]>57) && (flujochar[l]<65) || flujochar[l]>90) {
+    						break;
+    					}
+    						subca+=flujochar[l];
+    						//System.out.println("subca= "+ subca);
+    						//System.out.println("l= "+ l);
+    						Variables.bait=l;
+    				}
+    			Variables.bait+=2;
+    				//System.out.println("subca= "+ subca);
+    				for(int l=Variables.bait-1; l<posicion+avanzar; l++) {
+    					Variables.subca2+=flujochar[l];
+    					//System.out.println("subca2= "+ variables.subca2);
+    					//System.out.println("l= "+ l);
+    					Variables.bait=l;
+    				}
+    				//System.out.println("subca2= "+ subca2);
+    			}
+    			else { //Avanzar es menor a los caracteres
+    				
+    				for(int l=posicion; l<posicion+avanzar; l++) {
+    					if(flujochar[l]!=32 && flujochar[l]!=46 &&flujochar[l]!=44 && flujochar[l]!=40 && flujochar[l]!=41 &&flujochar[l]!=38 && flujochar[l]!=45 && (flujochar[l]<48 &&flujochar[l]>57) && (flujochar[l]<65) || flujochar[l]>90) {
+    						break;
+    					}
+    						subca+=flujochar[l];
+    						//System.out.println("subca= "+ subca);
+    						//System.out.println("l= "+ l);
+    						Variables.bait=l;
+    						//System.out.println(variables.bait);	
+    				}Variables.bait++;
+    				//System.out.println("subca= "+ subca);
+    				//System.out.println("flujochar[variables.bait+1]= "+ flujochar[variables.bait+1]);
+    				if(flujochar[Variables.bait]==192) {
+    					subca+='0';
+    					subca+='0';
+    					Variables.bait++;
+    					for(int l=Variables.bait+1; l<posicion+caracteres; l++) {
+    						
+    						if(flujochar[l]=='?' || flujochar[l]=='Š') {
+    							break;
+    						}
+    						else {
+    						subca+=flujochar[l];
+    						//System.out.println("subca= "+ subca);
+    						//System.out.println("l= "+ l);
+    						Variables.bait=l;
+    						//System.out.println(variables.bait);	
+    						}
+    				} //System.out.println("subca= "+ subca);
+    					if(subca.length()==caracteres) {
+    						Variables.bait--;
+    					}else {
+    					Variables.bait++;
+    					}
+    				}
+    				if(flujochar[Variables.bait]==232) {
+    					subca+=flujochar[Variables.bait+1];
+    					subca+=flujochar[Variables.bait+1];
+    					subca+=flujochar[Variables.bait+1];
+    					Variables.bait+=3;
+    					
+    					for(int l=Variables.bait; l<posicion+caracteres; l++) {
+    						
+    						if(flujochar[l]=='?' || flujochar[l]=='Š') {
+    							break;
+    						}
+    						else {
+    						subca+=flujochar[l];
+    						//System.out.println("subca= "+ subca);
+    						//System.out.println("l= "+ l);
+    						//variables.bait=l;
+    						//System.out.println(variables.bait);	
+    						}
+    				}
+    					if(subca.length()==caracteres) {
+    						Variables.bait--;
+    					}else {
+    					Variables.bait++;
+    					}
+    				}
+    				//System.out.println("subca= "+ subca);
+    				//variables.bait++;
+    			}
+    			}else {
+    				for(int l=posicion; l<posicion+caracteres; l++) {
+    					if(flujochar[l]!=32 && (flujochar[l]>0 &&flujochar[l]<48) || ((flujochar[l]>57 &&flujochar[l]<65)) || (flujochar[l]>90)) {
+    						Variables.bait=l;
+    						break; 
+    					}else {
+    					subca+=flujochar[l];
+    					//System.out.println("subca= "+ subca);
+    					//System.out.println("l= "+ l);
+    					Variables.bait=l;
+    					}
+    			}
+    			}
 
-			}
-		
-			Variables.comp3=0;
-			return subca;
+    			}
+    		
+    			Variables.comp3=0;
+    			
+    			return subca;}
+    			else {
+    				Variables.vcampos=0;
+    				return Variables.subca2;
+    			}
     }
     
     @Override
