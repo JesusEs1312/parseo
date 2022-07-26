@@ -161,8 +161,8 @@ public class IFileCBLImpl implements IFileCBL {
 					}
 					o++;
 				}
-				Variables.bait+=3;
-				System.out.println("subca= "+ subca);
+				Variables.bait+=2;
+				//System.out.println("subca= "+ subca);
 			}
 			else {
 			if(Variables.comp3==0) {
@@ -177,15 +177,15 @@ public class IFileCBLImpl implements IFileCBL {
 						//System.out.println("l= "+ l);
 						Variables.bait=l;
 				}
-				Variables.bait+=2;
-				System.out.println("subca= "+ subca);
+			Variables.bait+=1;
+				//System.out.println("subca= "+ subca);
 				/*for(int l=variables.bait+1; l<posicion+avanzar; l++) {
 					subca2+=flujochar[l];
-					//System.out.println("subca2= "+ subca2);
-					//System.out.println("l= "+ l);
+					System.out.println("subca2= "+ subca2);
+					System.out.println("l= "+ l);
 					variables.bait=l;
 				}*/
-				System.out.println("subca2= "+ subca2);
+				//System.out.println("subca2= "+ subca2);
 			}
 			else { //Avanzar es menor a los caracteres
 				
@@ -199,7 +199,7 @@ public class IFileCBLImpl implements IFileCBL {
 						Variables.bait=l;
 						//System.out.println(variables.bait);	
 				}Variables.bait++;
-				System.out.println("subca= "+ subca);
+				//System.out.println("subca= "+ subca);
 				//System.out.println("flujochar[variables.bait+1]= "+ flujochar[variables.bait+1]);
 				if(flujochar[Variables.bait]==192) {
 					subca+='0';
@@ -213,17 +213,43 @@ public class IFileCBLImpl implements IFileCBL {
 						else {
 						subca+=flujochar[l];
 						//System.out.println("subca= "+ subca);
-						System.out.println("l= "+ l);
+						//System.out.println("l= "+ l);
 						Variables.bait=l;
-						System.out.println(Variables.bait);	
+						//System.out.println(variables.bait);	
 						}
-				} System.out.println("subca= "+ subca);
+				} //System.out.println("subca= "+ subca);
 					if(subca.length()==caracteres) {
 						Variables.bait--;
 					}else {
 					Variables.bait++;
 					}
 				}
+				if(flujochar[Variables.bait]==232) {
+					subca+=flujochar[Variables.bait+1];
+					subca+=flujochar[Variables.bait+1];
+					subca+=flujochar[Variables.bait+1];
+					Variables.bait+=3;
+					
+					for(int l=Variables.bait; l<posicion+caracteres; l++) {
+						
+						if(flujochar[l]=='?' || flujochar[l]=='Š') {
+							break;
+						}
+						else {
+						subca+=flujochar[l];
+						//System.out.println("subca= "+ subca);
+						//System.out.println("l= "+ l);
+						//variables.bait=l;
+						//System.out.println(variables.bait);	
+						}
+				}
+					if(subca.length()==caracteres) {
+						Variables.bait--;
+					}else {
+					Variables.bait++;
+					}
+				}
+				//System.out.println("subca= "+ subca);
 				//variables.bait++;
 			}
 			}else {
@@ -233,8 +259,8 @@ public class IFileCBLImpl implements IFileCBL {
 						break; 
 					}else {
 					subca+=flujochar[l];
-					System.out.println("subca= "+ subca);
-					System.out.println("l= "+ l);
+					//System.out.println("subca= "+ subca);
+					//System.out.println("l= "+ l);
 					Variables.bait=l;
 					}
 			}
