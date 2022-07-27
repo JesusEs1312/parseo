@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import com.alldatum.coboltojava.app.pojo.Attribute;
 import com.alldatum.coboltojava.app.pojo.*;
+
 @Service
 public class IFileCBLImpl implements IFileCBL {
 
@@ -345,116 +346,55 @@ public class IFileCBLImpl implements IFileCBL {
 
     @Override
 	public List<String> values(InputStream fileDat) throws Exception {
-    	byte[] bytesFile = fileDat.readAllBytes();
-    	int length = 0;
-    	
-    	
-    	/*
-    	long numero=0;
-		int numero2=2244, sumabytes=900;
-		int i=0, bloque=0, s=0, reg=1, lin=0;
-		String [] flujo  = new String[35000000];
-		String [] lineas = new String[35000000];
-		String cadena="";
-		String subca="", subca2="";
-		String cadenaprueba="";
-		char[] flujocharprueba = new char [100000000];
-		*/
-    	
-//		for(int k=0; k<35000000; k++) {
-//			lineas[k]="";
-//		}
-
-//		InputStream ins = new FileInputStream("c:\\users\\Alldatum Business\\"+archivo+".dat");
-		/*
-		InputStream ins = file;
-		Scanner obj = new Scanner(ins);
-        Scanner entradaEscaner = new Scanner (System.in);
-         
-         while (obj.hasNextLine()) {
-        	 flujo[i] = obj.nextLine();
-        	 i++;
-         }
-         */
-         
-//         for(bloque=0; bloque<10; bloque++) {
-//        	 for(int j=0; j<5000; j++) {//en vez del número debe ir i   //////////////////////////////////////////////////////////////////////////////////////
-//        		cadenaprueba+=flujo[lin];
-//         		lin++;
-//        	 }
-//         
-//         cadenaprueba.getChars(0, cadenaprueba.length(), flujocharprueba, 0);
-//         
-//         for(int l=0; l<cadenaprueba.length(); l++) {
-//        	 subca="";
-//        	 
-//        	// System.out.println(flujocharprueba[l]);
-//        	 if(flujocharprueba[l]==0) {
-//        		 if(flujocharprueba[l+1]==0x06) {
-//        			 if(flujocharprueba[l+2]==0 &&flujocharprueba[l+3]==0 && flujocharprueba[l+4]==0 && flujocharprueba[l+5]==0) {
-//        				 for(int m=l+12; m<l+sumabytes; m++) {
-//        					 if(flujocharprueba[m+1]==255) {
-//        						 System.out.println("\n \n \n Hay una yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy");
-//        					 }
-//        					 if((flujocharprueba[m+1]==0 && flujocharprueba[m+2]==2)) {
-//        						 //System.out.println("lineas["+s+"]= "+lineas[s]);
-//        						 s++;
-//        						 
-//        						 for(int n=m+6; n<m+sumabytes; n++) {
-//        							 
-//        							 if((flujocharprueba[n+1]==0 && (flujocharprueba[n+2]==2 || flujocharprueba[n+2]==3 || flujocharprueba[n+2]==4 || flujocharprueba[n+2]==5))/* || flujocharprueba[n+1]==255*/) {
-//        								// System.out.print(flujocharprueba[n+1]);
-//        								 break;
-//        							 }
-//        							 else {
-//        								 lineas[s]+=flujocharprueba[n];
-//        								//System.out.println("lineas["+s+"]= "+lineas[s]);
-//        							 }
-//        						 }
-//        						 //bw.write("\n s= "+s+"   "+lineas[s]);
-//        						 //System.out.println("subca= "+subca);
-//        						 break;
-//        					 }else {
-//        					 lineas[s]+=flujocharprueba[m+1];
-//        					 
-//        					 }
-//        				 //System.out.print(/*Integer.toHexString((int)*/flujocharprueba[m+1]+"");
-//        				 
-//        				 
-//        				 //bw.write("   "+Integer.toHexString((int)flujocharprueba[m+1]));
-//        				 }
-//        				// bw.write("\n s= "+s+"   "+lineas[s]);
-//        				//System.out.print("\n");
-//        				 
-//        				//System.out.println("lineas["+s+"]= "+lineas[s]);
-//        				//flujo[s]=subca;
-//        				 
-//        				 s++;
-//        				 subca=String.valueOf(stringComp3(subca,5,0));
-//        				 //System.out.println("subca= "+subca);
-//        			 }
-//        		 }
-//        	 }
-//         }
-//         cadenaprueba="";
-//         }//////////////////////////////////////////////////////////////////////////////////////
-//         
-////         for(int k=0; k<s; k++) {
-//// 			//System.out.println(lineas[k]);
-////        	 bw.write("\n s= "+k+"  "+lineas[k]);
-////        	 
-//// 		}
-//         
-////         bw.close();
-//         
-//         for(int k = 0; k < 10; k++) {
-//        	 System.out.println(lineas[k]);
-//         }
-//         
-//         List<String> values = Arrays.asList(lineas);
-		 return null;
+    	//---Variables
+    	boolean count       = false;
+    	boolean leer        = false;
+    	boolean detener     = false;
+    	int length          = 0;
+    	int baitTemp        = -1;
+    	int bait            = fileDat.read();
+    	String cadena       = new String();
+    	List<String> values = new ArrayList<>();
+		//---Leer archivo 
+    	while(bait != -1) {
+    		if((bait == 6 || bait == 70 || bait == 71) && !count && !leer) {//--- Encuentra byte 6, 70, 71
+    			count = true;
+    		} else if(count && !leer) {//--- Comienza a contar cuatro veces 0
+    			if(bait != baitTemp) {
+    				length = 0;
+    				count  = false;
+    			}
+    			if(bait == 0) {
+    				length++;
+    				if(length == 4) {
+    					leer   = true;
+    					count  = false;
+    					length = 0;
+    				}
+    			}//--- end (bait == 0)
+    			if(!count) length = 0;
+    			baitTemp = bait;
+    		} else if(leer && !count) {//--- Comienza a guardar bytes en la cadena
+    			if(bait != baitTemp) length = 0;
+    			if(bait == 255) {
+    				length++;
+    				if(length == 10) detener = true;
+    			}//--- end (bait == 255)
+    			if(!detener) {
+    				cadena   += (char)bait;
+    				baitTemp = bait;
+    			} else {
+    				values.add(cadena);
+    				count   = false;
+    				leer    = false;
+    				detener = false;
+    				cadena  = "";
+    				if(values.size() == 1) break; 
+    			}
+    		}//--- end (!detener)
+    		bait = fileDat.read();
+    	}
+    	return values;
 	}
-
-    
 }
 
