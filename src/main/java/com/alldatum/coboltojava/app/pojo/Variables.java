@@ -5,4 +5,5 @@ public class Variables {
 	 static public int vcampos=0;
 	 static public int comp3=0;
 	 static public String subca2="";
+	 static public int todoscaracteres=3;
 }

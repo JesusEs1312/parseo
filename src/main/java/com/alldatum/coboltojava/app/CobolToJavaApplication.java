@@ -18,13 +18,9 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import com.alldatum.coboltojava.app.pojo.Attribute;
 import com.alldatum.coboltojava.app.pojo.FileCBL;
 import com.alldatum.coboltojava.app.pojo.ValuesAttribute;
+import com.alldatum.coboltojava.app.pojo.Variables;
 import com.alldatum.coboltojava.app.services.IFileCBLImpl;
 
-class Variables{
-	 static int bait=0;
-	 static int vcampos=0;
-	 static int comp3=0;
-}
 
 @SpringBootApplication
 public class CobolToJavaApplication implements CommandLineRunner{
@@ -42,20 +38,19 @@ public class CobolToJavaApplication implements CommandLineRunner{
 	public void run(String... args) throws Exception {
 		String hola="hola   hola";
 		 Variables.bait=7;
-		 InputStream file = new FileInputStream("C:\\Users\\Alldatum Business\\Downloads\\CATEGOPL.CBL");
-		 InputStream fileDat = new FileInputStream("C:\\Users\\Alldatum Business\\Downloads\\catego1.dat");
+		 InputStream file = new FileInputStream("C:\\Users\\Alldatum Business\\Downloads\\POLIZA.CBL");
+		 InputStream fileDat = new FileInputStream("C:\\Users\\Alldatum Business\\Downloads\\poliza4.dat");
 		 FileCBL cblPoliza = new FileCBL();
 		 cblPoliza.setAttributes(iFileCBLImpl.attributes(file));
 		 List<Attribute> attributes = cblPoliza.getAttributes();
 		 HashMap<String, ValuesAttribute> mapValuesDAT = iFileCBLImpl.mapKeysCBL(attributes);
 		 List<String> values = iFileCBLImpl.values(fileDat);
 		 
-		 attributes.forEach(attri -> {
-			 System.out.println(attri.getName().concat(" ").concat(String.valueOf(attri.getBytes())).concat(" ").concat(String.valueOf(attri.getBytesDecimal())));
-		 });
+//		 attributes.forEach(attri -> {
+//			 System.out.println(attri.getName().concat(" ").concat(String.valueOf(attri.getBytes())).concat(" ").concat(String.valueOf(attri.getBytesDecimal())));
+//		 });
 		 
 		 
-		 /*
 		// int cadenaLength = 0;
 		 values.forEach(cadena -> {
 			 int cadenaLength = 4;
@@ -116,14 +111,18 @@ public class CobolToJavaApplication implements CommandLineRunner{
 				 cadenaLength--;
 			 }
 		 });
-		 */
+		 
 		 for(String campoKey: mapValuesDAT.keySet()) {
+
 //			 if(campoKey.equals("CATEGOPL-RAMSUBRAMO")) {
+
+			 if(campoKey.equals("POLIZA-RAMSUBRAMO")||campoKey.equals("POLIZA-NPOLIZA")||campoKey.equals("POLIZA-RAMSUBRAM1")||campoKey.equals("POLIZA-IDCLIENTE")) {
 				 mapValuesDAT.get(campoKey).getValues().forEach(value ->{
 					 System.out.println(campoKey + " ----- " + value);
 				 });				 
 //			 }
 		 }
+	   }
 	}
 
 }
