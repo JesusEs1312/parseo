@@ -47,20 +47,20 @@ public class CobolToJavaApplication implements CommandLineRunner{
 		 
 		// int cadenaLength = 0;
 		 values.forEach(cadena -> {
-			 int cadenaLength = 4;
+			 int cadenaLength = 1;
 			while(cadenaLength > 0) {
 				 attributes.forEach(attribute -> {
 //					 System.out.println(attribute.getName());
 					 mapValuesDAT.entrySet().forEach(campoKey -> {
 						 String value = "";
 						 switch(attribute.getDataType()) {
-						 /*case String:
+						 case String:
 							if(campoKey.getKey() == attribute.getName()) {
 								value = iFileCBLImpl.extractString(cadena, attribute.getBytes(), Variables.bait, false, Variables.vcampos);
 								campoKey.getValue().addValue(value);
 								//valueLength = value.length();  
 							}
-							break;*/
+							break;
 						 case Integer:
 							if(campoKey.getKey() == attribute.getName()) {
 								try {
@@ -81,7 +81,7 @@ public class CobolToJavaApplication implements CommandLineRunner{
 		 });
 		 
 		 for(String campoKey: mapValuesDAT.keySet()) {
-			 if(campoKey.equals("POLIZA-RAMSUBRAMO")||campoKey.equals("POLIZA-NPOLIZA")||campoKey.equals("POLIZA-RAMSUBRAM1")||campoKey.equals("POLIZA-IDCLIENTE")) {
+			 if(campoKey.equals("POLIZA-RAMSUBRAMO")||campoKey.equals("POLIZA-NPOLIZA")||campoKey.equals("POLIZA-RAMSUBRAM1")||campoKey.equals("POLIZA-NPOLORG")||campoKey.equals("POLIZA-NPOLIZA1")||campoKey.equals("POLIZA-IDCLIENTE")||campoKey.equals("POLIZA-CONSEC")||campoKey.equals("POLIZA-STPOLIZA")||campoKey.equals("POLIZA-RAMSUBRAM2")||campoKey.equals("POLIZA-NPOLIZA2")||campoKey.equals("POLIZA-FMAADMVA")) {
 				 mapValuesDAT.get(campoKey).getValues().forEach(value ->{
 					 System.out.println(campoKey + " - " + value);
 				 });				 

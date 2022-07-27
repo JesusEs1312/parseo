@@ -171,14 +171,14 @@ public class IFileCBLImpl implements IFileCBL {
 			}
 			else {
 			if(Variables.comp3==0) {
-				if(avanzar>=caracteres) {
+				if(avanzar>caracteres) {
 					for(int l=posicion; l<avanzar; l++) {
 						if(flujochar[l]!=32 && flujochar[l]!=46 &&flujochar[l]!=44 && flujochar[l]!=40 && flujochar[l]!=41 &&flujochar[l]!=38 && flujochar[l]!=45 && (flujochar[l]<48 &&flujochar[l]>57) && (flujochar[l]<65) || flujochar[l]>90) {
 							aplicaavanzar=0;
 						}
 					}
 				}
-			if(avanzar>=caracteres && aplicaavanzar==1) {//Avanzar es mayor que los caracteres
+			if(avanzar>caracteres && aplicaavanzar==1) {//Avanzar es mayor que los caracteres
 				Variables.vcampos=1;
 				for(int l=posicion; l<posicion+caracteres; l++) {
 					if(flujochar[l]!=32 && flujochar[l]!=46 &&flujochar[l]!=44 && flujochar[l]!=40 && flujochar[l]!=41 &&flujochar[l]!=38 && flujochar[l]!=45 && (flujochar[l]<48 ||flujochar[l]>57) && (flujochar[l]<65 || flujochar[l]>90)) {
@@ -283,13 +283,11 @@ public class IFileCBLImpl implements IFileCBL {
 			}
 		
 			Variables.comp3=0;
-			if(subca.length()<1) {
-				Variables.bait-=2;
-			}
+			
 			return subca;}
 			else {
 				if(Variables.subca2.length()==caracteres) {
-				Variables.todoscaracteres=1;
+					Variables.todoscaracteres=1;
 				}
 				Variables.vcampos=0;
 				return Variables.subca2;
