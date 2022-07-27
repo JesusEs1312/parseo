@@ -433,7 +433,7 @@ public class IFileCBLImpl implements IFileCBL {
 	public HashMap<String, ValuesAttribute> mapKeysCBL(List<Attribute> attributes) {
 		HashMap<String, ValuesAttribute> mapKeysCBL = new HashMap<>();
 		attributes.forEach(attribute -> {
-			mapKeysCBL.put(attribute.getName(), null);
+			mapKeysCBL.put(attribute.getName(), new ValuesAttribute());
 		});
 		return mapKeysCBL;
 	}

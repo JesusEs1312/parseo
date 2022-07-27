@@ -39,6 +39,7 @@ public class CobolToJavaApplication implements CommandLineRunner{
 	@Override
 	public void run(String... args) throws Exception {
 		String hola="hola   hola";
+		 Variables.bait=7;
 		 InputStream file = new FileInputStream("C:\\Users\\Alldatum Business\\Downloads\\POLIZA.CBL");
 		 InputStream fileDat = new FileInputStream("C:\\Users\\Alldatum Business\\Downloads\\poliza4.dat");
 		 File filePrueba = new File("C:\\Users\\Alldatum Business\\Downloads\\poliza4.dat");
@@ -46,8 +47,50 @@ public class CobolToJavaApplication implements CommandLineRunner{
 		 cblPoliza.setAttributes(iFileCBLImpl.attributes(file));
 		 List<Attribute> attributes = cblPoliza.getAttributes();
 		 HashMap<String, ValuesAttribute> mapValuesDAT = iFileCBLImpl.mapKeysCBL(attributes);
-		 System.out.println(mapValuesDAT);
+		 List<String> values = iFileCBLImpl.values(fileDat);
 		 
+		// int cadenaLength = 0;
+		 values.forEach(cadena -> {
+			 int cadenaLength = 50;
+			while(cadenaLength > 0) {
+				 attributes.forEach(attribute -> {
+//					 System.out.println(attribute.getName());
+					 mapValuesDAT.entrySet().forEach(campoKey -> {
+						 String value = "";
+						 switch(attribute.getDataType()) {
+						 /*case String:
+							if(campoKey.getKey() == attribute.getName()) {
+								value = iFileCBLImpl.extractString(cadena, attribute.getBytes(), Variables.bait, false, Variables.vcampos);
+								campoKey.getValue().addValue(value);
+								//valueLength = value.length();  
+							}
+							break;*/
+						 case Integer:
+							if(campoKey.getKey() == attribute.getName()) {
+								try {
+									value = String.valueOf(iFileCBLImpl.stringComp3(cadena, attribute.getBytes(), Variables.bait));
+									campoKey.getValue().addValue(value);
+								} catch (Exception e) {
+									// TODO Auto-generated catch block
+									e.printStackTrace();
+								}
+								//valueLength = value.length();  
+							}
+							break;
+						 }					 
+					 });
+				 });
+				 cadenaLength--;
+			 }
+		 });
+		 
+		 for(String campoKey: mapValuesDAT.keySet()) {
+			 if(campoKey.equals("POLIZA-RAMSUBRAMO")) {
+				 mapValuesDAT.get(campoKey).getValues().forEach(value ->{
+					 System.out.println(campoKey + " - " + value);
+				 });				 
+			 }
+		 }
 	}
 
 }
