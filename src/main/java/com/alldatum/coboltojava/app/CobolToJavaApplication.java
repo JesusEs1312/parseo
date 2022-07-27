@@ -16,13 +16,9 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import com.alldatum.coboltojava.app.pojo.Attribute;
 import com.alldatum.coboltojava.app.pojo.FileCBL;
 import com.alldatum.coboltojava.app.pojo.ValuesAttribute;
+import com.alldatum.coboltojava.app.pojo.Variables;
 import com.alldatum.coboltojava.app.services.IFileCBLImpl;
 
-class Variables{
-	 static int bait=0;
-	 static int vcampos=0;
-	 static int comp3=0;
-}
 
 @SpringBootApplication
 public class CobolToJavaApplication implements CommandLineRunner{
@@ -51,7 +47,7 @@ public class CobolToJavaApplication implements CommandLineRunner{
 		 
 		// int cadenaLength = 0;
 		 values.forEach(cadena -> {
-			 int cadenaLength = 50;
+			 int cadenaLength = 4;
 			while(cadenaLength > 0) {
 				 attributes.forEach(attribute -> {
 //					 System.out.println(attribute.getName());
@@ -85,7 +81,7 @@ public class CobolToJavaApplication implements CommandLineRunner{
 		 });
 		 
 		 for(String campoKey: mapValuesDAT.keySet()) {
-			 if(campoKey.equals("POLIZA-RAMSUBRAMO")) {
+			 if(campoKey.equals("POLIZA-RAMSUBRAMO")||campoKey.equals("POLIZA-NPOLIZA")||campoKey.equals("POLIZA-RAMSUBRAM1")||campoKey.equals("POLIZA-IDCLIENTE")) {
 				 mapValuesDAT.get(campoKey).getValues().forEach(value ->{
 					 System.out.println(campoKey + " - " + value);
 				 });				 
