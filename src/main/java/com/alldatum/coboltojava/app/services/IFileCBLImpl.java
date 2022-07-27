@@ -4,6 +4,7 @@ package com.alldatum.coboltojava.app.services;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Scanner;
 import java.util.regex.Matcher;
@@ -11,7 +12,6 @@ import java.util.regex.Pattern;
 
 import org.springframework.stereotype.Service;
 
-import com.alldatum.coboltojava.app.pojo.Attribute;
 import com.alldatum.coboltojava.app.pojo.*;
 
 @Service
@@ -427,6 +427,15 @@ public class IFileCBLImpl implements IFileCBL {
     		bait = fileDat.read();
     	}
     	return values;
+	}
+
+	@Override
+	public HashMap<String, ValuesAttribute> mapKeysCBL(List<Attribute> attributes) {
+		HashMap<String, ValuesAttribute> mapKeysCBL = new HashMap<>();
+		attributes.forEach(attribute -> {
+			mapKeysCBL.put(attribute.getName(), null);
+		});
+		return mapKeysCBL;
 	}
 }
 
