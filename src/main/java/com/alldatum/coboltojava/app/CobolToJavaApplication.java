@@ -6,6 +6,8 @@ import java.io.InputStream;
 import java.util.HashMap;
 import java.util.List;
 
+import javax.naming.directory.AttributeInUseException;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,31 +42,38 @@ public class CobolToJavaApplication implements CommandLineRunner{
 	public void run(String... args) throws Exception {
 		String hola="hola   hola";
 		 Variables.bait=7;
-		 InputStream file = new FileInputStream("C:\\Users\\Alldatum Business\\Downloads\\POLIZA.CBL");
-		 InputStream fileDat = new FileInputStream("C:\\Users\\Alldatum Business\\Downloads\\poliza4.dat");
-		 File filePrueba = new File("C:\\Users\\Alldatum Business\\Downloads\\poliza4.dat");
+		 InputStream file = new FileInputStream("C:\\Users\\Alldatum Business\\Downloads\\CATEGOPL.CBL");
+		 InputStream fileDat = new FileInputStream("C:\\Users\\Alldatum Business\\Downloads\\catego1.dat");
 		 FileCBL cblPoliza = new FileCBL();
 		 cblPoliza.setAttributes(iFileCBLImpl.attributes(file));
 		 List<Attribute> attributes = cblPoliza.getAttributes();
 		 HashMap<String, ValuesAttribute> mapValuesDAT = iFileCBLImpl.mapKeysCBL(attributes);
 		 List<String> values = iFileCBLImpl.values(fileDat);
 		 
+		 attributes.forEach(attri -> {
+			 System.out.println(attri.getName().concat(" ").concat(String.valueOf(attri.getBytes())).concat(" ").concat(String.valueOf(attri.getBytesDecimal())));
+		 });
+		 
+		 
+		 /*
 		// int cadenaLength = 0;
 		 values.forEach(cadena -> {
-			 int cadenaLength = 50;
+			 int cadenaLength = 4;
 			while(cadenaLength > 0) {
 				 attributes.forEach(attribute -> {
 //					 System.out.println(attribute.getName());
 					 mapValuesDAT.entrySet().forEach(campoKey -> {
+//						 System.out.println(attribute.getName());
 						 String value = "";
 						 switch(attribute.getDataType()) {
-						 /*case String:
+						 case String:
+//							 System.out.println(attribute.getName() + "String");
 							if(campoKey.getKey() == attribute.getName()) {
 								value = iFileCBLImpl.extractString(cadena, attribute.getBytes(), Variables.bait, false, Variables.vcampos);
 								campoKey.getValue().addValue(value);
 								//valueLength = value.length();  
 							}
-							break;*/
+							break;
 						 case Integer:
 							if(campoKey.getKey() == attribute.getName()) {
 								try {
@@ -77,19 +86,43 @@ public class CobolToJavaApplication implements CommandLineRunner{
 								//valueLength = value.length();  
 							}
 							break;
+						 case Double:
+								if(campoKey.getKey() == attribute.getName()) {
+									try {
+										value = String.valueOf(iFileCBLImpl.comp3decimal(cadena, attribute.getBytes(), 2, Variables.bait));
+										campoKey.getValue().addValue(value);
+									} catch (Exception e) {
+										// TODO Auto-generated catch block
+										e.printStackTrace();
+									}
+									//valueLength = value.length();  
+								}
+							break;
+						 case List:
+							 if(campoKey.getKey() == attribute.getName()) {
+								 try {
+									 value = iFileCBLImpl.extractString(cadena, attribute.getBytes(), Variables.bait, true, Variables.vcampos);
+									 campoKey.getValue().addValue(value);
+								 } catch (Exception e) {
+									 // TODO Auto-generated catch block
+									 e.printStackTrace();
+								 }
+								 //valueLength = value.length();  
+							 }
+							 break;
 						 }					 
 					 });
 				 });
 				 cadenaLength--;
 			 }
 		 });
-		 
+		 */
 		 for(String campoKey: mapValuesDAT.keySet()) {
-			 if(campoKey.equals("POLIZA-RAMSUBRAMO")) {
+//			 if(campoKey.equals("CATEGOPL-RAMSUBRAMO")) {
 				 mapValuesDAT.get(campoKey).getValues().forEach(value ->{
-					 System.out.println(campoKey + " - " + value);
+					 System.out.println(campoKey + " ----- " + value);
 				 });				 
-			 }
+//			 }
 		 }
 	}
 

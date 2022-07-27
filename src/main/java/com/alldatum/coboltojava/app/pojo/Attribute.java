@@ -10,11 +10,11 @@ public class Attribute {
     private String name;
     private boolean withComp;
     private boolean withDecimal;
-    private String value;
+    private Integer bytesDecimal;
 
-    public String getValue() { return value; }
+    public Integer getBytesDecimal() { return bytesDecimal; }
 
-    public void setValue(String value) { this.value = value; }
+    public void setBytesDecimal(Integer bytesDecimal) { this.bytesDecimal = bytesDecimal; }
 
     public Attribute(DataType dataType) {
         this.dataType = Objects.requireNonNull(dataType);
