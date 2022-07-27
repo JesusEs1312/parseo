@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
 import java.util.HashMap;
+import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,6 +13,7 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+import com.alldatum.coboltojava.app.pojo.Attribute;
 import com.alldatum.coboltojava.app.pojo.FileCBL;
 import com.alldatum.coboltojava.app.pojo.ValuesAttribute;
 import com.alldatum.coboltojava.app.services.IFileCBLImpl;
@@ -41,8 +43,10 @@ public class CobolToJavaApplication implements CommandLineRunner{
 		 InputStream fileDat = new FileInputStream("C:\\Users\\Alldatum Business\\Downloads\\poliza4.dat");
 		 File filePrueba = new File("C:\\Users\\Alldatum Business\\Downloads\\poliza4.dat");
 		 FileCBL cblPoliza = new FileCBL();
-		 HashMap<String, ValuesAttribute> mapa = new HashMap<>();
 		 cblPoliza.setAttributes(iFileCBLImpl.attributes(file));
+		 List<Attribute> attributes = cblPoliza.getAttributes();
+		 HashMap<String, ValuesAttribute> mapValuesDAT = iFileCBLImpl.mapKeysCBL(attributes);
+		 System.out.println(mapValuesDAT);
 		 
 	}
 
