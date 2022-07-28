@@ -137,9 +137,12 @@ public class IFileCBLImpl implements IFileCBL {
     @Override
     public String extractString(String cadena, int caracteres, int posicion, boolean occurs, int vcampos) {
     	Variables.todoscaracteres=0;
+    	Variables.listaint=0;
+		Variables.listasin=0;
 		if(Variables.vcampos==0) {
 		Variables.subca2="";
 		int aplicaavanzar=1;
+		int inte=0;
 		String subca="";
 		int numOccurs =5;
 		char[] flujochar= new char[2000000];
@@ -154,6 +157,7 @@ public class IFileCBLImpl implements IFileCBL {
 			
 			
 			if(occurs) {
+				
 				for(int l=posicion; l<posicion+caracteres; l++) {
 					Variables.bait=l;
 					o=l;
@@ -167,10 +171,19 @@ public class IFileCBLImpl implements IFileCBL {
 			}
 				for(int j=0; j<=numOccurs; j++) {
 					if(flujochar[o+1]=='¿') {
+						Variables.listaint=1;
+						inte=1;
 						Variables.bait++;
 					}
 					else {
+						if(inte==1) {
 						break;
+						}
+						else {
+							Variables.bait+=1;
+							Variables.listasin=1;
+							break;
+						}
 					}
 					o++;
 				}
@@ -179,10 +192,13 @@ public class IFileCBLImpl implements IFileCBL {
 			}
 			else {
 			if(Variables.comp3==0) {
+				//System.out.println("avanzar= "+avanzar);
 				if(avanzar>caracteres) {
 					for(int l=posicion; l<avanzar; l++) {
+						//System.out.println("flujochar["+l+"]= "+flujochar[l]);
 						if(flujochar[l]!=32 && flujochar[l]!=46 &&flujochar[l]!=44 && flujochar[l]!=40 && flujochar[l]!=41 &&flujochar[l]!=38 && flujochar[l]!=45 && (flujochar[l]<48 &&flujochar[l]>57) && (flujochar[l]<65) || flujochar[l]>90) {
 							aplicaavanzar=0;
+							break;
 						}
 					}
 				}
@@ -291,10 +307,7 @@ public class IFileCBLImpl implements IFileCBL {
 			}
 		
 			Variables.comp3=0;
-<<<<<<< HEAD
-=======
 			
->>>>>>> 46f15cfce9f77945f9e0686f1c17349feaf7bdb7
 			return subca;}
 			else {
 				if(Variables.subca2.length()==caracteres) {
@@ -303,11 +316,12 @@ public class IFileCBLImpl implements IFileCBL {
 				Variables.vcampos=0;
 				return Variables.subca2;
 			}
-    }
+			
+	}
     
     @Override
     public double comp3decimal (String cadena, int digitoss9, int digitosv9, int posicion ) throws Exception {
-		int numbytess9=0, numbytesv9=0;
+    	int numbytess9=0, numbytesv9=0;
 		char[] flujochar= new char[2000000];
 		String subca="", strings9="", stringv9="";
 		long s9=0, v9=0;
@@ -365,9 +379,6 @@ public class IFileCBLImpl implements IFileCBL {
 		cadena.getChars(0, cadena.length(), flujochar, 0);
 		numbytes=(int)bytesCalculate(digitos);
 	
-		/*for(int l=2180; l<2190; l++) {
-			System.out.println("flujochar["+l+"]="+(int)flujochar[l]);
-		}*/
 		
 		for(int l=posicion; l<posicion+numbytes; l++) {
 			subca+=flujochar[l];
@@ -380,46 +391,51 @@ public class IFileCBLImpl implements IFileCBL {
 		Variables.bait++;
 		Variables.todoscaracteres=3;
 		return comp3;
-    }
+	}
 
     @Override
     public Long comp3(byte[] input) throws Exception {
-        final int Positivo = 0x0C;      // ultimo nibble del campo positivo
-        final int Negativo = 0x0D;      // ultimo nibble del campo negativo
-        final int SemSinal = 0x0F;      // ultimo nibble del campo sin signo
-        final int GetHO    = 0x0F;      // para obter los High Order bits
-        final int GetLO    = 0x0F;      // para obter los Low Order bits
-        long saida  = 0;                 // Valor convertido
-        int digito1 = 0;                 // Guarda el valor del primer nibble
-        int digito2 = 0;                  // Guarda el valor del segundo nibble
+    	Variables.comp3=1;
+	    final int Positivo = 0x0C;      // ultimo nibble del campo positivo
+	    final int Negativo = 0x0D;      // ultimo nibble del campo negativo
+	    final int SemSinal = 0x0F;      // ultimo nibble del campo sin signo
+	    final int GetHO    = 0x0F;      // para obter los High Order bits
+	    final int GetLO    = 0x0F;      // para obter los Low Order bits
+	    
+	    long saida = 0;                 // Valor convertido 
+	    int digito1 = 0;                 // Guarda el valor del primer nibble
+	    int digito2 = 0;                  // Guarda el valor del segundo nibble
 
-        for(int i = 0; i < input.length; i++) {
-            digito1 = (input[i] >> 4) & GetHO;
-            if (i == input.length - 1) {
-                saida = (saida * 10) + digito1;
-                digito2 = input[i] & GetLO;
-                if (digito2 == Negativo) {
-                    saida =- saida;
-                } else {
-                    if(digito2 != Positivo && digito2 != SemSinal) {
-                        //System.out.println("El campo no es comp-3");
-                        saida = 10000000;
-                    }
-                }
-            } else {                           // no es el ultimo digito
-                saida = (saida * 10) + digito1;
-                digito2 = input[i] & GetLO;        // Obtiene el último nibble
-                saida = (saida * 10) + digito2;
-            }
-        }
-        return saida;
+	    for(int i=0; i < input.length; i++) {
+	       digito1 = (input[i] >> 4) & GetHO;
+	       if (i == input.length - 1) {     
+	          saida = (saida * 10) + digito1; 
+	          digito2 = input[i] & GetLO;  
+	          if (digito2 == Negativo) {
+	             saida = -saida;
+	          } else {
+	             if(digito2 != Positivo && digito2 != SemSinal) {
+	                //System.out.println("El campo no es comp-3");
+	            	 saida=10000000;
+	             }
+	          }
+	       } else {                           // no es el ultimo digito
+	          saida = (saida * 10) + digito1;
+	          digito2 = input[i] & GetLO;        // Obtiene el último nibble
+	          saida = (saida * 10) + digito2;
+	       }
+	    }
+
+	    return saida;
     }
 
     @Override
     public  double bytesCalculate(float digits) {
-        double bytes = Math.ceil((digits + 1) / 2);
-        return bytes;
-    }
+    	double bytes=Math.ceil((digits+1)/2);
+		
+		return bytes;
+	}
+    
 
     @Override
 	public List<String> values(InputStream fileDat) throws Exception {
