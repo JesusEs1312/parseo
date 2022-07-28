@@ -36,9 +36,9 @@ public class CobolToJavaApplication implements CommandLineRunner{
 	public void run(String... args) throws Exception {
 		String hola="hola   hola";
 		 Variables.bait=7;
-		 InputStream file = new FileInputStream("C:\\Users\\Alldatum Business\\Downloads\\POLIZA.CBL");
-		 InputStream fileDat = new FileInputStream("C:\\Users\\Alldatum Business\\Downloads\\poliza4.dat");
-		 File filePrueba = new File("C:\\Users\\Alldatum Business\\Downloads\\poliza4.dat");
+		 InputStream file = new FileInputStream("C:\\Users\\Alldatum Business\\Downloads\\CATEGOPL.CBL");
+		 InputStream fileDat = new FileInputStream("C:\\Users\\Alldatum Business\\Downloads\\catego1.dat");
+		 File filePrueba = new File("C:\\Users\\Alldatum Business\\Downloads\\catego1.dat");
 		 FileCBL cblPoliza = new FileCBL();
 		 cblPoliza.setAttributes(iFileCBLImpl.attributes(file));
 		 List<Attribute> attributes = cblPoliza.getAttributes();
@@ -46,7 +46,9 @@ public class CobolToJavaApplication implements CommandLineRunner{
 		 List<String> values = iFileCBLImpl.values(fileDat);
 		 
 		// int cadenaLength = 0;
+		
 		 values.forEach(cadena -> {
+			 System.out.println(cadena);
 			 int cadenaLength = 1;
 			while(cadenaLength > 0) {
 				 attributes.forEach(attribute -> {
@@ -81,12 +83,12 @@ public class CobolToJavaApplication implements CommandLineRunner{
 		 });
 		 
 		 for(String campoKey: mapValuesDAT.keySet()) {
-			 if(campoKey.equals("POLIZA-RAMSUBRAMO")||campoKey.equals("POLIZA-NPOLIZA")||campoKey.equals("POLIZA-RAMSUBRAM1")||campoKey.equals("POLIZA-NPOLORG")||campoKey.equals("POLIZA-NPOLIZA1")||campoKey.equals("POLIZA-IDCLIENTE")||campoKey.equals("POLIZA-CONSEC")||campoKey.equals("POLIZA-STPOLIZA")||campoKey.equals("POLIZA-RAMSUBRAM2")||campoKey.equals("POLIZA-NPOLIZA2")||campoKey.equals("POLIZA-FMAADMVA")) {
+			 //if(campoKey.equals("POLIZA-RAMSUBRAMO")||campoKey.equals("POLIZA-NPOLIZA")||campoKey.equals("POLIZA-RAMSUBRAM1")||campoKey.equals("POLIZA-NPOLORG")||campoKey.equals("POLIZA-NPOLIZA1")||campoKey.equals("POLIZA-IDCLIENTE")||campoKey.equals("POLIZA-CONSEC")||campoKey.equals("POLIZA-STPOLIZA")||campoKey.equals("POLIZA-RAMSUBRAM2")||campoKey.equals("POLIZA-NPOLIZA2")||campoKey.equals("POLIZA-FMAADMVA")) {
 				 mapValuesDAT.get(campoKey).getValues().forEach(value ->{
 					 System.out.println(campoKey + " - " + value);
 				 });				 
 			 }
-		 }
+		 //}
 	}
 
 }
