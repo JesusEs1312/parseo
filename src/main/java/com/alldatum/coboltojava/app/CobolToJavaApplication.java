@@ -6,6 +6,8 @@ import java.io.InputStream;
 import java.util.HashMap;
 import java.util.List;
 
+import javax.naming.directory.AttributeInUseException;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,27 +38,43 @@ public class CobolToJavaApplication implements CommandLineRunner{
 	public void run(String... args) throws Exception {
 		String hola="hola   hola";
 		 Variables.bait=7;
+<<<<<<< HEAD
 		 InputStream file = new FileInputStream("C:\\Users\\Alldatum Business\\Downloads\\CATEGOPL.CBL");
 		 InputStream fileDat = new FileInputStream("C:\\Users\\Alldatum Business\\Downloads\\catego1.dat");
 		 File filePrueba = new File("C:\\Users\\Alldatum Business\\Downloads\\catego1.dat");
+=======
+		 InputStream file = new FileInputStream("C:\\Users\\Alldatum Business\\Downloads\\POLIZA.CBL");
+		 InputStream fileDat = new FileInputStream("C:\\Users\\Alldatum Business\\Downloads\\poliza4.dat");
+>>>>>>> 5b7cec46da18740b4cdf90177870575a1deab239
 		 FileCBL cblPoliza = new FileCBL();
 		 cblPoliza.setAttributes(iFileCBLImpl.attributes(file));
 		 List<Attribute> attributes = cblPoliza.getAttributes();
 		 HashMap<String, ValuesAttribute> mapValuesDAT = iFileCBLImpl.mapKeysCBL(attributes);
 		 List<String> values = iFileCBLImpl.values(fileDat);
 		 
+//		 attributes.forEach(attri -> {
+//			 System.out.println(attri.getName().concat(" ").concat(String.valueOf(attri.getBytes())).concat(" ").concat(String.valueOf(attri.getBytesDecimal())));
+//		 });
+		 
+		 
 		// int cadenaLength = 0;
 		
 		 values.forEach(cadena -> {
+<<<<<<< HEAD
 			 System.out.println(cadena);
 			 int cadenaLength = 1;
+=======
+			 int cadenaLength = 4;
+>>>>>>> 5b7cec46da18740b4cdf90177870575a1deab239
 			while(cadenaLength > 0) {
 				 attributes.forEach(attribute -> {
 //					 System.out.println(attribute.getName());
 					 mapValuesDAT.entrySet().forEach(campoKey -> {
+//						 System.out.println(attribute.getName());
 						 String value = "";
 						 switch(attribute.getDataType()) {
 						 case String:
+//							 System.out.println(attribute.getName() + "String");
 							if(campoKey.getKey() == attribute.getName()) {
 								value = iFileCBLImpl.extractString(cadena, attribute.getBytes(), Variables.bait, false, Variables.vcampos);
 								campoKey.getValue().addValue(value);
@@ -75,6 +93,30 @@ public class CobolToJavaApplication implements CommandLineRunner{
 								//valueLength = value.length();  
 							}
 							break;
+						 case Double:
+								if(campoKey.getKey() == attribute.getName()) {
+									try {
+										value = String.valueOf(iFileCBLImpl.comp3decimal(cadena, attribute.getBytes(), 2, Variables.bait));
+										campoKey.getValue().addValue(value);
+									} catch (Exception e) {
+										// TODO Auto-generated catch block
+										e.printStackTrace();
+									}
+									//valueLength = value.length();  
+								}
+							break;
+						 case List:
+							 if(campoKey.getKey() == attribute.getName()) {
+								 try {
+									 value = iFileCBLImpl.extractString(cadena, attribute.getBytes(), Variables.bait, true, Variables.vcampos);
+									 campoKey.getValue().addValue(value);
+								 } catch (Exception e) {
+									 // TODO Auto-generated catch block
+									 e.printStackTrace();
+								 }
+								 //valueLength = value.length();  
+							 }
+							 break;
 						 }					 
 					 });
 				 });
@@ -83,12 +125,25 @@ public class CobolToJavaApplication implements CommandLineRunner{
 		 });
 		 
 		 for(String campoKey: mapValuesDAT.keySet()) {
+<<<<<<< HEAD
 			 //if(campoKey.equals("POLIZA-RAMSUBRAMO")||campoKey.equals("POLIZA-NPOLIZA")||campoKey.equals("POLIZA-RAMSUBRAM1")||campoKey.equals("POLIZA-NPOLORG")||campoKey.equals("POLIZA-NPOLIZA1")||campoKey.equals("POLIZA-IDCLIENTE")||campoKey.equals("POLIZA-CONSEC")||campoKey.equals("POLIZA-STPOLIZA")||campoKey.equals("POLIZA-RAMSUBRAM2")||campoKey.equals("POLIZA-NPOLIZA2")||campoKey.equals("POLIZA-FMAADMVA")) {
+=======
+
+//			 if(campoKey.equals("CATEGOPL-RAMSUBRAMO")) {
+
+			 if(campoKey.equals("POLIZA-RAMSUBRAMO")||campoKey.equals("POLIZA-NPOLIZA")||campoKey.equals("POLIZA-RAMSUBRAM1")||campoKey.equals("POLIZA-IDCLIENTE")) {
+>>>>>>> 5b7cec46da18740b4cdf90177870575a1deab239
 				 mapValuesDAT.get(campoKey).getValues().forEach(value ->{
-					 System.out.println(campoKey + " - " + value);
+					 System.out.println(campoKey + " ----- " + value);
 				 });				 
+<<<<<<< HEAD
 			 }
 		 //}
+=======
+//			 }
+		 }
+	   }
+>>>>>>> 5b7cec46da18740b4cdf90177870575a1deab239
 	}
 
 }

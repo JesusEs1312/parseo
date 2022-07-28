@@ -25,21 +25,23 @@ public class IFileCBLImpl implements IFileCBL {
         boolean endName                = false;
         boolean startBytes             = false;
         Pattern patternWithoutSpace    = Pattern.compile("^[\\S]");
-        String nomTemp                 = "";
+        String  nomTemp                = "";
         boolean withCompTemp           = false;
         boolean withDecimalTemp        = false;
         Integer bytesTemp              = null;
+        Integer bytesDecimalTemp       = null;
 
         while (obj.hasNextLine()) { //--- Read file row
-            boolean withDecimal = false;
-            boolean withComp    = false;
-            boolean wasArray    = false;
-            String row          = obj.nextLine().trim();
-            String attributeAux = "";
-            String name         = "";
-            String dataType     = "";
-            Integer bytes       = null;
-
+            boolean withDecimal  = false;
+            boolean withComp     = false;
+            boolean wasArray     = false;
+            String row           = obj.nextLine().trim();
+            String attributeAux  = "";
+            String name          = "";
+            String dataType      = "";
+            Integer bytes        = null;
+            Integer bytesDecimal = null;
+            
             if(row.startsWith("04") || row.startsWith("05") || row.startsWith("OCCURS")){
                 char characters[] = row.toCharArray();//--- Convert row to character array
                 for(int i = 0; i < characters.length; i++){//--- Read character array
@@ -60,15 +62,20 @@ public class IFileCBLImpl implements IFileCBL {
                                 attributeAux += characters[i];
                                 if(attributeAux.equalsIgnoreCase("PIC")){
                                     attributeAux = "";
-                                } else if (characters[i] == '(' || characters[i] == ')'  || startBytes && !withDecimal) {
-                                    if (characters[i] == '(') {
+                                } else if ((characters[i] == '(' || characters[i] == ')')) {
+                                	if (characters[i] == '(') {
                                         startBytes = true;
                                         attributeAux = "";
                                     } else if (characters[i] == ')'){
-                                        startBytes = false;
+                                    	System.out.println(attributeAux);
+                                    	
                                         String bytesString = attributeAux.substring(0, attributeAux.length() - 1);
-                                        bytes = Integer.parseInt(bytesString);
+                                        if(startBytes && !withDecimal)
+                                        	bytes = Integer.parseInt(bytesString);
+                                        else
+                                        	bytesDecimal = Integer.parseInt(bytesString);
                                         attributeAux = "";
+                                        startBytes = false;
                                     }
                                 } else if (characters[i] == 'X'){
                                     dataType     = "X";
@@ -90,9 +97,10 @@ public class IFileCBLImpl implements IFileCBL {
                 if(bytes == null && !name.equalsIgnoreCase("OCCURS")){
                     nomTemp = name;
                 } else if (row.startsWith("05")) {
-                    withCompTemp    = withComp;
-                    withDecimalTemp = withDecimal;
-                    bytesTemp       = bytes;
+                    withCompTemp     = withComp;
+                    withDecimalTemp  = withDecimal;
+                    bytesTemp        = bytes;
+                    bytesDecimalTemp = bytesDecimal;
                 } else {
                     if(dataType.equalsIgnoreCase("X")){
                         attribute = new Attribute(Attribute.DataType.String);
@@ -109,14 +117,14 @@ public class IFileCBLImpl implements IFileCBL {
                         attribute.setBytes(bytesTemp);
                         attribute.setWithComp(withCompTemp);
                         attribute.setWithDecimal(withDecimalTemp);
-                        attribute.setValue(null);
+                        attribute.setBytesDecimal(bytesDecimalTemp);
                         wasArray = false;
                     } else {
                         attribute.setName(name);
                         attribute.setBytes(bytes);
                         attribute.setWithComp(withComp);
                         attribute.setWithDecimal(withDecimal);
-                        attribute.setValue(null);
+                        attribute.setBytesDecimal(bytesDecimal);
                     }
                     attributesList.add(attribute);
                 }
@@ -283,7 +291,10 @@ public class IFileCBLImpl implements IFileCBL {
 			}
 		
 			Variables.comp3=0;
+<<<<<<< HEAD
+=======
 			
+>>>>>>> 46f15cfce9f77945f9e0686f1c17349feaf7bdb7
 			return subca;}
 			else {
 				if(Variables.subca2.length()==caracteres) {
