@@ -150,7 +150,7 @@ public class CobolToJavaApplication implements CommandLineRunner{
 		 
 		 
 		// int cadenaLength = 0;
-		
+		 
 		 values.forEach(cadena -> {
 
 			 System.out.println(cadena);
@@ -168,9 +168,13 @@ public class CobolToJavaApplication implements CommandLineRunner{
 						 case String:
 //							 System.out.println(attribute.getName() + "String");
 							if(campoKey.getKey() == attribute.getName()) {
-								if(Variables.comp3==0) {
-									Variables.bait+=2;
+								//if(Variables.comp3==0 /*|| Variables.listasin==0*/) {
+									//Variables.bait+=2;
+								//}
+								if(dataTypeAnt == attribute.getDataType()) {
+									
 								}
+								
 								value = iFileCBLImpl.extractString(cadena, attribute.getBytes(), Variables.bait, false, Variables.vcampos);
 								campoKey.getValue().addValue(value);
 								//valueLength = value.length();  
@@ -214,6 +218,7 @@ public class CobolToJavaApplication implements CommandLineRunner{
 							 break;
 						 }					 
 					 });
+					  
 				 });
 				 cadenaLength--;
 			 }

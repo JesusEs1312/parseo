@@ -196,7 +196,7 @@ public class IFileCBLImpl implements IFileCBL {
 				if(avanzar>caracteres) {
 					for(int l=posicion; l<avanzar; l++) {
 						//System.out.println("flujochar["+l+"]= "+flujochar[l]);
-						if(flujochar[l]!=32 && flujochar[l]!=46 &&flujochar[l]!=44 && flujochar[l]!=40 && flujochar[l]!=41 &&flujochar[l]!=38 && flujochar[l]!=45 && (flujochar[l]<48 &&flujochar[l]>57) && (flujochar[l]<65) || flujochar[l]>90) {
+						if(flujochar[l]!=32 && flujochar[l]!=46 &&flujochar[l]!=44 && flujochar[l]!=40 && flujochar[l]!=41 &&flujochar[l]!=38 && flujochar[l]!=45 && (flujochar[l]<48 ||flujochar[l]>57) && (flujochar[l]<65 || flujochar[l]>90)) {
 							aplicaavanzar=0;
 							break;
 						}
@@ -216,10 +216,14 @@ public class IFileCBLImpl implements IFileCBL {
 			Variables.bait+=2;
 				//System.out.println("subca= "+ subca);
 				for(int l=Variables.bait-1; l<posicion+avanzar; l++) {
+					if(flujochar[l]!=32 && flujochar[l]!=46 &&flujochar[l]!=44 && flujochar[l]!=40 && flujochar[l]!=41 &&flujochar[l]!=38 && flujochar[l]!=45 && (flujochar[l]<48 ||flujochar[l]>57) && (flujochar[l]<65 || flujochar[l]>90)) {
+						break;
+					}else {
 					Variables.subca2+=flujochar[l];
 					//System.out.println("subca2= "+ variables.subca2);
 					//System.out.println("l= "+ l);
 					Variables.bait=l;
+					}
 				} Variables.bait+=1;
 				
 				//System.out.println("subca2= "+ subca2);
