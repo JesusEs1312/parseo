@@ -167,24 +167,42 @@ public class CobolToJavaApplication implements CommandLineRunner{
 						 switch(attribute.getDataType()) {
 						 case String:
 //							 System.out.println(attribute.getName() + "String");
+							 try {
 							if(campoKey.getKey() == attribute.getName()) {
-								//if(Variables.comp3==0 /*|| Variables.listasin==0*/) {
-									//Variables.bait+=2;
-								//}
-								if(dataTypeAnt == attribute.getDataType()) {
-									
+								if(Variables.comp3==0 ) {
+									Variables.bait+=2;
 								}
+								if( Variables.listasin==1) {
+									Variables.bait-=2;
+								}
+								/*if(dataTypeAnt == attribute.getDataType()) {
+									
+								}*/
+								if(attribute.getName().equals("POLIZA-COLONIA")) {
+									 System.out.print("");
+									 Variables.bait+=2;
+								 }
 								
-								value = iFileCBLImpl.extractString(cadena, attribute.getBytes(), Variables.bait, false, Variables.vcampos);
+								value = iFileCBLImpl.extractString(cadena, attribute.getBytes(), Variables.bait, false, Variables.vcampos, String.valueOf(attribute.getDataType()));
 								campoKey.getValue().addValue(value);
-								//valueLength = value.length();  
+								System.out.println(attribute.getName() +" "+ value);
 							}
+								//valueLength = value.length();  
+							}catch(Exception e) {}
 							break;
 						 case Integer:
 							if(campoKey.getKey() == attribute.getName()) {
 								try {
+									if(attribute.getName().equals("POLIZA-TPCOMIS")) {
+										 System.out.print("");
+										 Variables.bait++;
+									 }
+									if (Variables.decimal==1) {
+										Variables.bait++;
+									}
 									value = String.valueOf(iFileCBLImpl.stringComp3(cadena, attribute.getBytes(), Variables.bait));
 									campoKey.getValue().addValue(value);
+									System.out.println(attribute.getName() +" "+ value);
 								} catch (Exception e) {
 									// TODO Auto-generated catch block
 									e.printStackTrace();
@@ -195,7 +213,11 @@ public class CobolToJavaApplication implements CommandLineRunner{
 						 case Double:
 								if(campoKey.getKey() == attribute.getName()) {
 									try {
-										value = String.valueOf(iFileCBLImpl.comp3decimal(cadena, attribute.getBytes(), 2, Variables.bait));
+										if(Variables.listaint==1) {
+											Variables.bait+=1;
+										}
+										value = String.valueOf(iFileCBLImpl.comp3decimal(cadena, attribute.getBytes(), 2, Variables.bait+1));
+										System.out.println(attribute.getName() +" "+ value);
 										campoKey.getValue().addValue(value);
 									} catch (Exception e) {
 										// TODO Auto-generated catch block
@@ -207,8 +229,13 @@ public class CobolToJavaApplication implements CommandLineRunner{
 						 case List:
 							 if(campoKey.getKey() == attribute.getName()) {
 								 try {
-									 value = iFileCBLImpl.extractString(cadena, attribute.getBytes(), Variables.bait, true, Variables.vcampos);
+									 if(attribute.getName().equals("POLIZA-NAGENTE-VEC")) {
+										 System.out.print("");
+										 
+									 }
+									 value = iFileCBLImpl.extractString(cadena, attribute.getBytes(), Variables.bait, true, Variables.vcampos, String.valueOf(attribute.getDataType()));
 									 campoKey.getValue().addValue(value);
+									 System.out.println(attribute.getName() +" "+ value);
 								 } catch (Exception e) {
 									 // TODO Auto-generated catch block
 									 e.printStackTrace();
@@ -229,7 +256,7 @@ public class CobolToJavaApplication implements CommandLineRunner{
 			 //if(campoKey.equals("POLIZA-RAMSUBRAMO")||campoKey.equals("POLIZA-NPOLIZA")||campoKey.equals("POLIZA-RAMSUBRAM1")||campoKey.equals("POLIZA-NPOLORG")||campoKey.equals("POLIZA-NPOLIZA1")||campoKey.equals("POLIZA-IDCLIENTE")||campoKey.equals("POLIZA-CONSEC")||campoKey.equals("POLIZA-STPOLIZA")||campoKey.equals("POLIZA-RAMSUBRAM2")||campoKey.equals("POLIZA-NPOLIZA2")||campoKey.equals("POLIZA-FMAADMVA")) {
 
 
-//			 if(campoKey.equals("CATEGOPL-RAMSUBRAMO")) {
+			 if(campoKey.equals("CATEGOPL-DESCRIP-VEC")) {
 
 			// if(campoKey.equals("POLIZA-RAMSUBRAMO")||campoKey.equals("POLIZA-NPOLIZA")||campoKey.equals("POLIZA-RAMSUBRAM1")||campoKey.equals("POLIZA-IDCLIENTE")) {
 
@@ -237,7 +264,7 @@ public class CobolToJavaApplication implements CommandLineRunner{
 					 System.out.println(campoKey + " ----- " + value);
 				 });				 
 
-			// }
+			 }
 		 //}
 
 //			 }
