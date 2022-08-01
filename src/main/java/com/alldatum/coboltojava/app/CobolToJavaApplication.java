@@ -45,7 +45,7 @@ public class CobolToJavaApplication implements CommandLineRunner{
 		 String subca="";
 
 		 InputStream file = new FileInputStream("C:\\Users\\Alldatum Business\\Downloads\\POLIZA.CBL");
-		 InputStream fileDat = new FileInputStream("C:\\Users\\Alldatum Business\\Downloads\\poliza4.dat");
+		 InputStream fileDat = new FileInputStream("C:\\Users\\Alldatum Business\\Downloads\\POLIZA.DAT");
 		 /*String archivo = "catego1";
 			String ruta = "c:\\users\\Alldatum Business\\"+archivo+"2.dat";
 			 File file = new File(ruta);

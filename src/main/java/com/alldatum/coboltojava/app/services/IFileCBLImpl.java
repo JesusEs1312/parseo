@@ -368,7 +368,7 @@ public class IFileCBLImpl implements IFileCBL {
 		
 		for(int i=0; i < entrada.length; i++) {
 		       digito1 = (entrada[i] >> 4) & GetHO;
-		       System.out.println(digito1);
+		       //System.out.println(digito1);
 			   saida = (saida * 10) + digito1;
 			   digito2 = entrada[i] & GetLO;        // Obtiene el último nibble
 		       saida = (saida * 10) + digito2;
@@ -411,7 +411,7 @@ public class IFileCBLImpl implements IFileCBL {
 			Variables.bait=l;
 			
 		}
-		System.out.println("Subca= "+subca);
+		//System.out.println("Subca= "+subca);
 		comp3=comp3(subca.getBytes());
 		
 		Variables.bait++;
