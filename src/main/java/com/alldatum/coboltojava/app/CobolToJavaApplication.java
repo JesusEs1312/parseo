@@ -45,15 +45,16 @@ public class CobolToJavaApplication implements CommandLineRunner{
 		String hola="hola   hola";
 		 Variables.bait=7;
 //<<<<<<< HEAD
-//		 InputStream file    = new FileInputStream("C:\\Users\\Alldatum Business\\Downloads\\CATEGOPL.CBL");
-//		 InputStream fileDat = new FileInputStream("C:\\Users\\Alldatum Business\\Downloads\\poliza4.dat");
-//		 FileCBL cblPoliza   = new FileCBL();
-//=======
-		 long numero=0;
-		 String subca="";
-
-		 InputStream file = new FileInputStream("C:\\Users\\Alldatum Business\\Downloads\\POLIZA.CBL");
-		 InputStream fileDat = new FileInputStream("C:\\Users\\Alldatum Business\\Downloads\\POLIZA.DAT");
+////<<<<<<< HEAD
+////		 InputStream file    = new FileInputStream("C:\\Users\\Alldatum Business\\Downloads\\CATEGOPL.CBL");
+////		 InputStream fileDat = new FileInputStream("C:\\Users\\Alldatum Business\\Downloads\\poliza4.dat");
+////		 FileCBL cblPoliza   = new FileCBL();
+////=======
+//		 long numero=0;
+//		 String subca="";
+//
+//		 InputStream file = new FileInputStream("C:\\Users\\Alldatum Business\\Downloads\\POLIZA.CBL");
+//		 InputStream fileDat = new FileInputStream("C:\\Users\\Alldatum Business\\Downloads\\POLIZA.DAT");
 		 /*String archivo = "catego1";
 			String ruta = "c:\\users\\Alldatum Business\\"+archivo+"2.dat";
 			 File file = new File(ruta);
@@ -93,6 +94,26 @@ public class CobolToJavaApplication implements CommandLineRunner{
 		             }*/
 		        
 		         //}
+
+		 InputStream file    = new FileInputStream("C:\\Users\\Alldatum Business\\Downloads\\CATEGOPL.CBL");
+		 InputStream fileDat = new FileInputStream("C:\\Users\\Alldatum Business\\Downloads\\poliza4.dat");
+		 FileCBL cblPoliza   = new FileCBL();
+		 cblPoliza.setAttributes(iFileCBLImpl.attributes(file));
+		 List<Attribute> attributes = cblPoliza.getAttributes();
+		 HashMap<String, ValuesAttribute> mapValuesDAT = iFileCBLImpl.mapKeysCBL(attributes);
+		 List<String> values = iFileCBLImpl.values(fileDat);
+		 HashMap<String, ValuesAttribute> mapValues = iFileCBLImpl.mapValues(attributes, values, mapValuesDAT);
+		 
+		 attributes.forEach(attribute -> {
+			 p.out.println(attribute.getName()
+					 .concat(" ").concat(String.valueOf(attribute.getBytes()))
+					 .concat(" ").concat(String.valueOf(attribute.getDataType()))
+					 .concat(" ").concat(String.valueOf(attribute.getBytesDecimal()))
+					 .concat(" ").concat(String.valueOf(attribute.getDataTypeList())));
+		 });
+
+		 
+//		 iFileCBLImpl.readFileDAT(fileDat);
 
 		 
 
@@ -175,6 +196,7 @@ public class CobolToJavaApplication implements CommandLineRunner{
 //			 System.out.println(attri.getName().concat(" ").concat(String.valueOf(attri.getBytes())).concat(" ").concat(String.valueOf(attri.getBytesDecimal())));
 //>>>>>>> cf25d50bdbab5559fd57b3f2c978e5b7f09bb638
 //		 });
+
 		 
 		 /*
 		// int cadenaLength = 0;
