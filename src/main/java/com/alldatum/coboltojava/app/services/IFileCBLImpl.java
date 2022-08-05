@@ -29,6 +29,7 @@ public class IFileCBLImpl implements IFileCBL {
         boolean startBytes             = false;
         Pattern patternWithoutSpace    = Pattern.compile("^[\\S]");
         String  nomTemp                = "";
+        String  dataTypeTemp           = null;
         boolean withCompTemp           = false;
         boolean withDecimalTemp        = false;
         Integer bytesTemp              = null;
@@ -104,16 +105,20 @@ public class IFileCBLImpl implements IFileCBL {
                     withDecimalTemp  = withDecimal;
                     bytesTemp        = bytes;
                     bytesDecimalTemp = bytesDecimal;
+                    dataTypeTemp     = dataType;
                 } else {
                     if(dataType.equalsIgnoreCase("X")){
                         attribute = new Attribute(Attribute.DataType.String);
+//                        dataType = "String";
                     } else if (dataType.equalsIgnoreCase("S9") && withDecimal) {
                         attribute = new Attribute(Attribute.DataType.Double);
+//                        dataType = "Double";
                     } else if (name.equalsIgnoreCase("OCCURS")){
                         attribute = new Attribute(Attribute.DataType.List);
                         wasArray = true;
                     } else {
                         attribute = new Attribute(Attribute.DataType.Integer);
+//                        dataType = "Integer";
                     }
                     if (wasArray){
                         attribute.setName(nomTemp);
@@ -121,6 +126,7 @@ public class IFileCBLImpl implements IFileCBL {
                         attribute.setWithComp(withCompTemp);
                         attribute.setWithDecimal(withDecimalTemp);
                         attribute.setBytesDecimal(bytesDecimalTemp);
+                        attribute.setDataTypeList(dataTypeTemp);
                         wasArray = false;
                     } else {
                         attribute.setName(name);

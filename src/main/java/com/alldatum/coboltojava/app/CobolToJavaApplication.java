@@ -64,7 +64,8 @@ public class CobolToJavaApplication implements CommandLineRunner{
 			 p.out.println(attribute.getName()
 					 .concat(" ").concat(String.valueOf(attribute.getBytes()))
 					 .concat(" ").concat(String.valueOf(attribute.getDataType()))
-					 .concat(" ").concat(String.valueOf(attribute.getBytesDecimal())));
+					 .concat(" ").concat(String.valueOf(attribute.getBytesDecimal()))
+					 .concat(" ").concat(String.valueOf(attribute.getDataTypeList())));
 		 });
 		 
 		 /*
