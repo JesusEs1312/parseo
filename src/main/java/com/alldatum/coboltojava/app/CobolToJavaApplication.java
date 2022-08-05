@@ -44,11 +44,11 @@ public class CobolToJavaApplication implements CommandLineRunner{
 	public void run(String... args) throws Exception {
 		String hola="hola   hola";
 		 Variables.bait=7;
-<<<<<<< HEAD
-		 InputStream file    = new FileInputStream("C:\\Users\\Alldatum Business\\Downloads\\CATEGOPL.CBL");
-		 InputStream fileDat = new FileInputStream("C:\\Users\\Alldatum Business\\Downloads\\poliza4.dat");
-		 FileCBL cblPoliza   = new FileCBL();
-=======
+//<<<<<<< HEAD
+//		 InputStream file    = new FileInputStream("C:\\Users\\Alldatum Business\\Downloads\\CATEGOPL.CBL");
+//		 InputStream fileDat = new FileInputStream("C:\\Users\\Alldatum Business\\Downloads\\poliza4.dat");
+//		 FileCBL cblPoliza   = new FileCBL();
+//=======
 		 long numero=0;
 		 String subca="";
 
@@ -96,17 +96,18 @@ public class CobolToJavaApplication implements CommandLineRunner{
 
 		 
 
-		 FileCBL cblPoliza = new FileCBL();
->>>>>>> cf25d50bdbab5559fd57b3f2c978e5b7f09bb638
-		 cblPoliza.setAttributes(iFileCBLImpl.attributes(file));
-		 List<Attribute> attributes = cblPoliza.getAttributes();
-		 HashMap<String, ValuesAttribute> mapValuesDAT = iFileCBLImpl.mapKeysCBL(attributes);
-		 List<String> values = iFileCBLImpl.values(fileDat);
-		 HashMap<String, ValuesAttribute> mapValues = iFileCBLImpl.mapValues(attributes, values, mapValuesDAT);
-		 
-<<<<<<< HEAD
-		 iFileCBLImpl.readFileDAT(fileDat);
-		 
+//		 FileCBL cblPoliza = new FileCBL();
+//		 
+//>>>>>>> cf25d50bdbab5559fd57b3f2c978e5b7f09bb638
+//		 cblPoliza.setAttributes(iFileCBLImpl.attributes(file));
+//		 List<Attribute> attributes = cblPoliza.getAttributes();
+//		 HashMap<String, ValuesAttribute> mapValuesDAT = iFileCBLImpl.mapKeysCBL(attributes);
+//		 List<String> values = iFileCBLImpl.values(fileDat);
+//		 HashMap<String, ValuesAttribute> mapValues = iFileCBLImpl.mapValues(attributes, values, mapValuesDAT);
+//		 
+//<<<<<<< HEAD
+//		 iFileCBLImpl.readFileDAT(fileDat);
+//		 
 		 
 		 
 //		 for(String campoKey: mapValues.keySet()) {
@@ -119,7 +120,7 @@ public class CobolToJavaApplication implements CommandLineRunner{
 //			 p.out.println(attribute.getName()
 //					 .concat(" ").concat(String.valueOf(attribute.getBytes()))
 //					 .concat(" ").concat(String.valueOf(attribute.getDataType())));
-=======
+//=======
 		 /*numero=iFileCBLImpl.stringComp3(flujo[numero2],5,2002);System.out.println("RAMSUBRAM="+numero);
 			numero=iFileCBLImpl.stringComp3(flujo[numero2],7,Variables.bait);System.out.println("NPOLIZA"+numero);
 			numero=iFileCBLImpl.stringComp3(flujo[numero2],5,Variables.bait);System.out.println("RAMSUBRAM1"+numero);
@@ -172,7 +173,7 @@ public class CobolToJavaApplication implements CommandLineRunner{
 		 
 //		 attributes.forEach(attri -> {
 //			 System.out.println(attri.getName().concat(" ").concat(String.valueOf(attri.getBytes())).concat(" ").concat(String.valueOf(attri.getBytesDecimal())));
->>>>>>> cf25d50bdbab5559fd57b3f2c978e5b7f09bb638
+//>>>>>>> cf25d50bdbab5559fd57b3f2c978e5b7f09bb638
 //		 });
 		 
 		 /*
@@ -216,92 +217,92 @@ public class CobolToJavaApplication implements CommandLineRunner{
 								/*if(dataTypeAnt == attribute.getDataType()) {
 									
 								}*/
-								if(attribute.getName().equals("POLIZA-COLONIA")) {
-									 System.out.print("");
-									 Variables.bait+=2;
-								 }
-								
-								value = iFileCBLImpl.extractString(cadena, attribute.getBytes(), Variables.bait, false, Variables.vcampos, String.valueOf(attribute.getDataType()));
->>>>>>> cf25d50bdbab5559fd57b3f2c978e5b7f09bb638
-								campoKey.getValue().addValue(value);
-								System.out.println(attribute.getName() +" "+ value);
-							}
-								//valueLength = value.length();  
-							}catch(Exception e) {}
-							break;
-						 case Integer:
-							if(campoKey.getKey() == attribute.getName()) {
-								try {
-<<<<<<< HEAD
-									value = String.valueOf(iFileCBLImpl.stringComp3(attribute.getName(), cadena, attribute.getBytes(), Variables.bait));
-=======
-									if(attribute.getName().equals("POLIZA-TPCOMIS")) {
-										 System.out.print("");
-										 Variables.bait++;
-									 }
-									if (Variables.decimal==1) {
-										Variables.bait++;
-									}
-									value = String.valueOf(iFileCBLImpl.stringComp3(cadena, attribute.getBytes(), Variables.bait));
->>>>>>> cf25d50bdbab5559fd57b3f2c978e5b7f09bb638
-									campoKey.getValue().addValue(value);
-									System.out.println(attribute.getName() +" "+ value);
-								} catch (Exception e) {
-									// TODO Auto-generated catch block
-									e.printStackTrace();
-								}
-								//valueLength = value.length();  
-							}
-							break;
-						 case Double:
-								if(campoKey.getKey() == attribute.getName()) {
-									try {
-<<<<<<< HEAD
-										value = String.valueOf(iFileCBLImpl.comp3decimal(attribute.getName(),cadena, attribute.getBytes(), attribute.getBytesDecimal(), Variables.bait));
-=======
-										if(Variables.listaint==1) {
-											Variables.bait+=1;
-										}
-										value = String.valueOf(iFileCBLImpl.comp3decimal(cadena, attribute.getBytes(), 2, Variables.bait+1));
-										System.out.println(attribute.getName() +" "+ value);
->>>>>>> cf25d50bdbab5559fd57b3f2c978e5b7f09bb638
-										campoKey.getValue().addValue(value);
-									} catch (Exception e) {
-										// TODO Auto-generated catch block
-										e.printStackTrace();
-									}
-									//valueLength = value.length();  
-								}
-							break;
-						 case List:
-							 if(campoKey.getKey() == attribute.getName()) {
-								 try {
-									 if(attribute.getName().equals("POLIZA-NAGENTE-VEC")) {
-										 System.out.print("");
-										 
-									 }
-									 value = iFileCBLImpl.extractString(cadena, attribute.getBytes(), Variables.bait, true, Variables.vcampos, String.valueOf(attribute.getDataType()));
-									 campoKey.getValue().addValue(value);
-									 System.out.println(attribute.getName() +" "+ value);
-								 } catch (Exception e) {
-									 // TODO Auto-generated catch block
-									 e.printStackTrace();
-								 }
-								 //valueLength = value.length();  
-							 }
-							 break;
-						 }					 
-					 });
-<<<<<<< HEAD
-					 dtt = attribute.getDataType();
-=======
-					  
->>>>>>> cf25d50bdbab5559fd57b3f2c978e5b7f09bb638
-				 });
-				 cadenaLength--;
-			 }
-		 });
-		 */
+//								if(attribute.getName().equals("POLIZA-COLONIA")) {
+//									 System.out.print("");
+//									 Variables.bait+=2;
+//								 }
+//								
+//								value = iFileCBLImpl.extractString(cadena, attribute.getBytes(), Variables.bait, false, Variables.vcampos, String.valueOf(attribute.getDataType()));
+//>>>>>>> cf25d50bdbab5559fd57b3f2c978e5b7f09bb638
+//								campoKey.getValue().addValue(value);
+//								System.out.println(attribute.getName() +" "+ value);
+//							}
+//								//valueLength = value.length();  
+//							}catch(Exception e) {}
+//							break;
+//						 case Integer:
+//							if(campoKey.getKey() == attribute.getName()) {
+//								try {
+//<<<<<<< HEAD
+//									value = String.valueOf(iFileCBLImpl.stringComp3(attribute.getName(), cadena, attribute.getBytes(), Variables.bait));
+//=======
+//									if(attribute.getName().equals("POLIZA-TPCOMIS")) {
+//										 System.out.print("");
+//										 Variables.bait++;
+//									 }
+//									if (Variables.decimal==1) {
+//										Variables.bait++;
+//									}
+//									value = String.valueOf(iFileCBLImpl.stringComp3(cadena, attribute.getBytes(), Variables.bait));
+//>>>>>>> cf25d50bdbab5559fd57b3f2c978e5b7f09bb638
+//									campoKey.getValue().addValue(value);
+//									System.out.println(attribute.getName() +" "+ value);
+//								} catch (Exception e) {
+//									// TODO Auto-generated catch block
+//									e.printStackTrace();
+//								}
+//								//valueLength = value.length();  
+//							}
+//							break;
+//						 case Double:
+//								if(campoKey.getKey() == attribute.getName()) {
+//									try {
+//<<<<<<< HEAD
+//										value = String.valueOf(iFileCBLImpl.comp3decimal(attribute.getName(),cadena, attribute.getBytes(), attribute.getBytesDecimal(), Variables.bait));
+//=======
+//										if(Variables.listaint==1) {
+//											Variables.bait+=1;
+//										}
+//										value = String.valueOf(iFileCBLImpl.comp3decimal(cadena, attribute.getBytes(), 2, Variables.bait+1));
+//										System.out.println(attribute.getName() +" "+ value);
+//>>>>>>> cf25d50bdbab5559fd57b3f2c978e5b7f09bb638
+//										campoKey.getValue().addValue(value);
+//									} catch (Exception e) {
+//										// TODO Auto-generated catch block
+//										e.printStackTrace();
+//									}
+//									//valueLength = value.length();  
+//								}
+//							break;
+//						 case List:
+//							 if(campoKey.getKey() == attribute.getName()) {
+//								 try {
+//									 if(attribute.getName().equals("POLIZA-NAGENTE-VEC")) {
+//										 System.out.print("");
+//										 
+//									 }
+//									 value = iFileCBLImpl.extractString(cadena, attribute.getBytes(), Variables.bait, true, Variables.vcampos, String.valueOf(attribute.getDataType()));
+//									 campoKey.getValue().addValue(value);
+//									 System.out.println(attribute.getName() +" "+ value);
+//								 } catch (Exception e) {
+//									 // TODO Auto-generated catch block
+//									 e.printStackTrace();
+//								 }
+//								 //valueLength = value.length();  
+//							 }
+//							 break;
+//						 }					 
+//					 });
+////<<<<<<< HEAD
+//					 dtt = attribute.getDataType();
+////=======
+////					  
+////>>>>>>> cf25d50bdbab5559fd57b3f2c978e5b7f09bb638
+//				 });
+//				 cadenaLength--;
+//			 }
+//		 });
+//		 */
 		 
 		 /*
 		 for(String campoKey: mapValuesDAT.keySet()) {
@@ -337,11 +338,12 @@ public class CobolToJavaApplication implements CommandLineRunner{
 		 
 	}
 }
-=======
-		 }
-	   }
 
-	}
-
-
->>>>>>> cf25d50bdbab5559fd57b3f2c978e5b7f09bb638
+//=======
+//		 }
+//	   }
+//
+//	}
+//
+//
+//>>>>>>> cf25d50bdbab5559fd57b3f2c978e5b7f09bb638

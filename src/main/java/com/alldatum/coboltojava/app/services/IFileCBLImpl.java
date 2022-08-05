@@ -46,19 +46,11 @@ public class IFileCBLImpl implements IFileCBL {
             Integer bytes        = null;
             Integer bytesDecimal = null;
             
-<<<<<<< HEAD
             if(row.startsWith("02") || row.startsWith("04") || row.startsWith("05") || row.startsWith("OCCURS")){
             	if(row.startsWith("02")) {
             		basta++;
             	} else {
                 char characters[] = row.toCharArray();//--- Convert row to character array
-=======
-            if(row.startsWith("04") || row.startsWith("05") || row.startsWith("02") || row.startsWith("OCCURS")){
-            	if(row.startsWith("02")) {
-            		basta++;
-            	} else {
-            	char characters[] = row.toCharArray();//--- Convert row to character array
->>>>>>> cf25d50bdbab5559fd57b3f2c978e5b7f09bb638
                 for(int i = 0; i < characters.length; i++){//--- Read character array
                     Matcher matcherWithoutSpace = patternWithoutSpace.matcher(String.valueOf(characters[i]));
                     if(i > 2){
@@ -140,43 +132,21 @@ public class IFileCBLImpl implements IFileCBL {
                     attributesList.add(attribute);
                 }
                 endName = false;
-<<<<<<< HEAD
             }//--- End else
         }//--- End validacion row
             if(basta == 2) break;
         }//--- end file row
-=======
-            }//--- End read row
-        }//--- End read file row
-            if(basta==2) {
-            	break;
-            }
-        }
->>>>>>> cf25d50bdbab5559fd57b3f2c978e5b7f09bb638
         return attributesList;
         
     }
 
-    @Override
-<<<<<<< HEAD
-    public String extractString(String cadena, int caracteres, int posicion, boolean occurs, int vcampos) {
-    	
-=======
+    @Override    	
     public String extractString(String cadena, int caracteres, int posicion, boolean occurs, int vcampos, String tipoDeDato) throws Exception {
->>>>>>> cf25d50bdbab5559fd57b3f2c978e5b7f09bb638
     	Variables.todoscaracteres=0;
     	Variables.decimal=0;
     	Variables.listaint=0;
 		Variables.listasin=0;
 		if(Variables.vcampos==0) {
-<<<<<<< HEAD
-			Variables.subca2="";
-			int aplicaavanzar=1;
-			String subca="";
-			int numOccurs =5;
-			char[] flujochar= new char[2000000];
-			int avanzar=0, o=0;
-=======
 		Variables.subca2="";
 		int aplicaavanzar=1;
 		int inte=0;
@@ -184,7 +154,6 @@ public class IFileCBLImpl implements IFileCBL {
 		int numOccurs =5;
 		char[] flujochar= new char[2000000];
 		int avanzar=0, o=0;
->>>>>>> cf25d50bdbab5559fd57b3f2c978e5b7f09bb638
 		
 			cadena.getChars(0, cadena.length(), flujochar, 0);
 			
@@ -356,14 +325,8 @@ public class IFileCBLImpl implements IFileCBL {
 			}
 		
 			Variables.comp3=0;
-<<<<<<< HEAD
-			return subca;
-			
-		}//--
-=======
 			
 			return subca;}
->>>>>>> cf25d50bdbab5559fd57b3f2c978e5b7f09bb638
 			else {
 				if(Variables.subca2.length() == caracteres) {
 					Variables.todoscaracteres=1;
@@ -375,12 +338,8 @@ public class IFileCBLImpl implements IFileCBL {
 	}
     
     @Override
-<<<<<<< HEAD
-    public double comp3decimal(String attr, String cadena, int digitoss9, int digitosv9, int posicion ) throws Exception {
-=======
     public String comp3decimal (String cadena, int digitoss9, int digitosv9, int posicion ) throws Exception {
     	Variables.decimal=1;
->>>>>>> cf25d50bdbab5559fd57b3f2c978e5b7f09bb638
     	int numbytess9=0, numbytesv9=0;
 		char[] flujochar= new char[2000000];
 		String subca="", strings9="", stringv9="";
@@ -396,27 +355,18 @@ public class IFileCBLImpl implements IFileCBL {
 	    
 	    
 		cadena.getChars(0, cadena.length(), flujochar, 0);
-<<<<<<< HEAD
-		
-		numbytesv9=(int)bytesCalculate(digitosv9);
-=======
 		numbytesv9=(int) Math.ceil((digitosv9)/2);
 		//System.out.println("numbytesv9= "+numbytesv9);
->>>>>>> cf25d50bdbab5559fd57b3f2c978e5b7f09bb638
 		numbytess9=(int)bytesCalculate(digitoss9);
 		//System.out.println("numbytess9= "+numbytess9);
 		
-		s9=stringComp3(attr, cadena,digitoss9,posicion);
+		s9=stringComp3(cadena,digitoss9,posicion);
 		subca=cadena.substring(posicion+numbytess9, posicion+numbytess9+numbytesv9);
 		byte[] entrada = subca.getBytes();
 		
 		for(int i=0; i < entrada.length; i++) {
 		       digito1 = (entrada[i] >> 4) & GetHO;
-<<<<<<< HEAD
-//		       System.out.println(digito1);
-=======
 		       //System.out.println(digito1);
->>>>>>> cf25d50bdbab5559fd57b3f2c978e5b7f09bb638
 			   saida = (saida * 10) + digito1;
 			   digito2 = entrada[i] & GetLO;        // Obtiene el último nibble
 		       saida = (saida * 10) + digito2;
@@ -462,12 +412,8 @@ public class IFileCBLImpl implements IFileCBL {
     
 
     @Override
-<<<<<<< HEAD
-    public Long stringComp3(String att, String cadena, int digitos, int posicion) throws Exception {
-=======
     public Long stringComp3(String cadena, int digitos, int posicion) throws Exception {
     	Variables.decimal=0;
->>>>>>> cf25d50bdbab5559fd57b3f2c978e5b7f09bb638
     	if(Variables.todoscaracteres==0) {
 			posicion+=2;
 		}
@@ -491,11 +437,7 @@ public class IFileCBLImpl implements IFileCBL {
 			Variables.bait=l;
 			
 		}
-<<<<<<< HEAD
-//		System.out.println("Subca= "+subca);
-=======
 		//System.out.println("Subca= "+subca);
->>>>>>> cf25d50bdbab5559fd57b3f2c978e5b7f09bb638
 		comp3=comp3(subca.getBytes());
 		
 		Variables.bait++;
@@ -506,18 +448,8 @@ public class IFileCBLImpl implements IFileCBL {
 	}
 
     @Override
-    public Long comp3(byte[] input) throws Exception {
-<<<<<<< HEAD
-    	Variables.comp3 = 1;
-        final int Positivo = 0x0C;      // ultimo nibble del campo positivo
-        final int Negativo = 0x0D;      // ultimo nibble del campo negativo
-        final int SemSinal = 0x0F;      // ultimo nibble del campo sin signo
-        final int GetHO    = 0x0F;      // para obter los High Order bits
-        final int GetLO    = 0x0F;      // para obter los Low Order bits
-        long saida  = 0;                 // Valor convertido
-        int digito1 = 0;                 // Guarda el valor del primer nibble
-        int digito2 = 0;                  // Guarda el valor del segundo nibble
-=======
+    public Long comp3(byte[] input) throws Exception {                 // Guarda el valor del segundo nibble
+
     	Variables.listaint=0;
    	 	Variables.listasin=0;
     	Variables.comp3=1;
@@ -530,7 +462,6 @@ public class IFileCBLImpl implements IFileCBL {
 	    long saida = 0;                 // Valor convertido 
 	    int digito1 = 0;                 // Guarda el valor del primer nibble
 	    int digito2 = 0;                  // Guarda el valor del segundo nibble
->>>>>>> cf25d50bdbab5559fd57b3f2c978e5b7f09bb638
 
 	    for(int i=0; i < input.length; i++) {
 	       digito1 = (input[i] >> 4) & GetHO;
