@@ -26,9 +26,12 @@ import com.alldatum.coboltojava.app.services.IFileCBLImpl;
 public class CobolToJavaApplication implements CommandLineRunner{
 	
 	private static final Logger log = LoggerFactory.getLogger(CobolToJavaApplication.class);
+	private System p;
 	
 	@Autowired
 	private IFileCBLImpl iFileCBLImpl;
+	
+	public Attribute.DataType dtt = null;
 	
 	public static void main(String[] args) {
 		SpringApplication.run(CobolToJavaApplication.class, args);
@@ -38,24 +41,38 @@ public class CobolToJavaApplication implements CommandLineRunner{
 	public void run(String... args) throws Exception {
 		String hola="hola   hola";
 		 Variables.bait=7;
-		 InputStream file = new FileInputStream("C:\\Users\\Alldatum Business\\Downloads\\POLIZA.CBL");
+		 InputStream file    = new FileInputStream("C:\\Users\\Alldatum Business\\Downloads\\CATEGOPL.CBL");
 		 InputStream fileDat = new FileInputStream("C:\\Users\\Alldatum Business\\Downloads\\poliza4.dat");
-		 FileCBL cblPoliza = new FileCBL();
+		 FileCBL cblPoliza   = new FileCBL();
 		 cblPoliza.setAttributes(iFileCBLImpl.attributes(file));
 		 List<Attribute> attributes = cblPoliza.getAttributes();
 		 HashMap<String, ValuesAttribute> mapValuesDAT = iFileCBLImpl.mapKeysCBL(attributes);
 		 List<String> values = iFileCBLImpl.values(fileDat);
+		 HashMap<String, ValuesAttribute> mapValues = iFileCBLImpl.mapValues(attributes, values, mapValuesDAT);
 		 
-//		 attributes.forEach(attri -> {
-//			 System.out.println(attri.getName().concat(" ").concat(String.valueOf(attri.getBytes())).concat(" ").concat(String.valueOf(attri.getBytesDecimal())));
+		 iFileCBLImpl.readFileDAT(fileDat);
+		 
+		 
+		 
+//		 for(String campoKey: mapValues.keySet()) {
+//			 mapValues.get(campoKey).getValues().forEach(value ->{
+//				 System.out.println(campoKey + " ----- " + value);
+//			 });				 
+//		 }
+		 
+//		 attributes.forEach(attribute -> {
+//			 p.out.println(attribute.getName()
+//					 .concat(" ").concat(String.valueOf(attribute.getBytes()))
+//					 .concat(" ").concat(String.valueOf(attribute.getDataType())));
 //		 });
 		 
-		 
+		 /*
 		// int cadenaLength = 0;
 		 values.forEach(cadena -> {
-			 int cadenaLength = 4;
+			 System.out.println(cadena);
+			 int cadenaLength = 1;
 			while(cadenaLength > 0) {
-				 attributes.forEach(attribute -> {
+				 attributes.forEach(attribute -> {//--subramo
 //					 System.out.println(attribute.getName());
 					 mapValuesDAT.entrySet().forEach(campoKey -> {
 //						 System.out.println(attribute.getName());
@@ -64,6 +81,9 @@ public class CobolToJavaApplication implements CommandLineRunner{
 						 case String:
 //							 System.out.println(attribute.getName() + "String");
 							if(campoKey.getKey() == attribute.getName()) {
+								if(attribute.getDataType() == dtt) {
+									Variables.bait++;
+								}
 								value = iFileCBLImpl.extractString(cadena, attribute.getBytes(), Variables.bait, false, Variables.vcampos);
 								campoKey.getValue().addValue(value);
 								//valueLength = value.length();  
@@ -72,7 +92,7 @@ public class CobolToJavaApplication implements CommandLineRunner{
 						 case Integer:
 							if(campoKey.getKey() == attribute.getName()) {
 								try {
-									value = String.valueOf(iFileCBLImpl.stringComp3(cadena, attribute.getBytes(), Variables.bait));
+									value = String.valueOf(iFileCBLImpl.stringComp3(attribute.getName(), cadena, attribute.getBytes(), Variables.bait));
 									campoKey.getValue().addValue(value);
 								} catch (Exception e) {
 									// TODO Auto-generated catch block
@@ -84,7 +104,7 @@ public class CobolToJavaApplication implements CommandLineRunner{
 						 case Double:
 								if(campoKey.getKey() == attribute.getName()) {
 									try {
-										value = String.valueOf(iFileCBLImpl.comp3decimal(cadena, attribute.getBytes(), 2, Variables.bait));
+										value = String.valueOf(iFileCBLImpl.comp3decimal(attribute.getName(),cadena, attribute.getBytes(), attribute.getBytesDecimal(), Variables.bait));
 										campoKey.getValue().addValue(value);
 									} catch (Exception e) {
 										// TODO Auto-generated catch block
@@ -107,22 +127,31 @@ public class CobolToJavaApplication implements CommandLineRunner{
 							 break;
 						 }					 
 					 });
+					 dtt = attribute.getDataType();
 				 });
 				 cadenaLength--;
 			 }
 		 });
+		 */
 		 
+		 /*
 		 for(String campoKey: mapValuesDAT.keySet()) {
 
 //			 if(campoKey.equals("CATEGOPL-RAMSUBRAMO")) {
 
-			 if(campoKey.equals("POLIZA-RAMSUBRAMO")||campoKey.equals("POLIZA-NPOLIZA")||campoKey.equals("POLIZA-RAMSUBRAM1")||campoKey.equals("POLIZA-IDCLIENTE")) {
+//			 if(campoKey.equals("POLIZA-RAMSUBRAMO") || campoKey.equals("POLIZA-IDCLIENTE")) {
 				 mapValuesDAT.get(campoKey).getValues().forEach(value ->{
 					 System.out.println(campoKey + " ----- " + value);
 				 });				 
 //			 }
-		 }
-	   }
+//			 }
+	   }*/
+		 
+//		 values.forEach(c -> {
+//			 System.out.println(c);
+//			 System.out.println(c.getBytes().length);
+//			 System.out.println(c.length());
+//		 });
+		 
 	}
-
 }

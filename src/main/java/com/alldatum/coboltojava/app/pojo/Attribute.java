@@ -12,10 +12,15 @@ public class Attribute {
     private boolean withDecimal;
     private Integer bytesDecimal;
 
-    public Integer getBytesDecimal() { return bytesDecimal; }
 
-    public void setBytesDecimal(Integer bytesDecimal) { this.bytesDecimal = bytesDecimal; }
+	public Integer getBytesDecimal() { 
+		return bytesDecimal; 
+	}
 
+    public void setBytesDecimal(Integer bytesDecimal) { 
+    	this.bytesDecimal = bytesDecimal; 
+    }
+    
     public Attribute(DataType dataType) {
         this.dataType = Objects.requireNonNull(dataType);
     }

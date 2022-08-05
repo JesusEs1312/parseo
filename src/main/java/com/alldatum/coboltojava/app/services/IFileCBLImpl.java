@@ -16,6 +16,9 @@ import com.alldatum.coboltojava.app.pojo.*;
 
 @Service
 public class IFileCBLImpl implements IFileCBL {
+	
+	private System p;
+	private int position;
 
     @Override
     public List<Attribute> attributes(InputStream file) {//---------------- FUNCTION THAT RETURN THE CBL ATTRIBUTES
@@ -30,6 +33,7 @@ public class IFileCBLImpl implements IFileCBL {
         boolean withDecimalTemp        = false;
         Integer bytesTemp              = null;
         Integer bytesDecimalTemp       = null;
+        int basta                      = 0;
 
         while (obj.hasNextLine()) { //--- Read file row
             boolean withDecimal  = false;
@@ -42,7 +46,10 @@ public class IFileCBLImpl implements IFileCBL {
             Integer bytes        = null;
             Integer bytesDecimal = null;
             
-            if(row.startsWith("04") || row.startsWith("05") || row.startsWith("OCCURS")){
+            if(row.startsWith("02") || row.startsWith("04") || row.startsWith("05") || row.startsWith("OCCURS")){
+            	if(row.startsWith("02")) {
+            		basta++;
+            	} else {
                 char characters[] = row.toCharArray();//--- Convert row to character array
                 for(int i = 0; i < characters.length; i++){//--- Read character array
                     Matcher matcherWithoutSpace = patternWithoutSpace.matcher(String.valueOf(characters[i]));
@@ -67,13 +74,9 @@ public class IFileCBLImpl implements IFileCBL {
                                         startBytes = true;
                                         attributeAux = "";
                                     } else if (characters[i] == ')'){
-                                    	System.out.println(attributeAux);
-                                    	
                                         String bytesString = attributeAux.substring(0, attributeAux.length() - 1);
-                                        if(startBytes && !withDecimal)
-                                        	bytes = Integer.parseInt(bytesString);
-                                        else
-                                        	bytesDecimal = Integer.parseInt(bytesString);
+                                        if(startBytes && !withDecimal) bytes = Integer.parseInt(bytesString);//--- Guardar bytes(S9)
+                                        else bytesDecimal = Integer.parseInt(bytesString);//--- Guardar bytes(V9)
                                         attributeAux = "";
                                         startBytes = false;
                                     }
@@ -129,23 +132,26 @@ public class IFileCBLImpl implements IFileCBL {
                     attributesList.add(attribute);
                 }
                 endName = false;
-            }//--- End read row
-        }//--- End read file row
+            }//--- End else
+        }//--- End validacion row
+            if(basta == 2) break;
+        }//--- end file row
         return attributesList;
     }
 
     @Override
     public String extractString(String cadena, int caracteres, int posicion, boolean occurs, int vcampos) {
+    	
     	Variables.todoscaracteres=0;
 		if(Variables.vcampos==0) {
-		Variables.subca2="";
-		int aplicaavanzar=1;
-		String subca="";
-		int numOccurs =5;
-		char[] flujochar= new char[2000000];
-		int avanzar=0, o=0;
+			Variables.subca2="";
+			int aplicaavanzar=1;
+			String subca="";
+			int numOccurs =5;
+			char[] flujochar= new char[2000000];
+			int avanzar=0, o=0;
 		
-		cadena.getChars(0, cadena.length(), flujochar, 0);
+			cadena.getChars(0, cadena.length(), flujochar, 0);
 			
 			if(posicion>0) {
 				avanzar = (int)flujochar[posicion-1];
@@ -242,9 +248,10 @@ public class IFileCBLImpl implements IFileCBL {
 					if(subca.length()==caracteres) {
 						Variables.bait--;
 					}else {
-					Variables.bait++;
+						Variables.bait++;
 					}
 				}
+				
 				if(flujochar[Variables.bait]==232) {
 					subca+=flujochar[Variables.bait+1];
 					subca+=flujochar[Variables.bait+1];
@@ -291,13 +298,11 @@ public class IFileCBLImpl implements IFileCBL {
 			}
 		
 			Variables.comp3=0;
-<<<<<<< HEAD
-=======
+			return subca;
 			
->>>>>>> 46f15cfce9f77945f9e0686f1c17349feaf7bdb7
-			return subca;}
+		}//--
 			else {
-				if(Variables.subca2.length()==caracteres) {
+				if(Variables.subca2.length() == caracteres) {
 					Variables.todoscaracteres=1;
 				}
 				Variables.vcampos=0;
@@ -306,8 +311,8 @@ public class IFileCBLImpl implements IFileCBL {
     }
     
     @Override
-    public double comp3decimal (String cadena, int digitoss9, int digitosv9, int posicion ) throws Exception {
-		int numbytess9=0, numbytesv9=0;
+    public double comp3decimal(String attr, String cadena, int digitoss9, int digitosv9, int posicion ) throws Exception {
+    	int numbytess9=0, numbytesv9=0;
 		char[] flujochar= new char[2000000];
 		String subca="", strings9="", stringv9="";
 		long s9=0, v9=0;
@@ -322,16 +327,17 @@ public class IFileCBLImpl implements IFileCBL {
 	    
 	    
 		cadena.getChars(0, cadena.length(), flujochar, 0);
+		
 		numbytesv9=(int)bytesCalculate(digitosv9);
 		numbytess9=(int)bytesCalculate(digitoss9);
 		
-		s9=stringComp3(cadena,digitoss9,posicion);
+		s9=stringComp3(attr, cadena,digitoss9,posicion);
 		subca=cadena.substring(posicion+numbytess9, posicion+numbytess9+numbytesv9);
 		byte[] entrada = subca.getBytes();
 		
 		for(int i=0; i < entrada.length; i++) {
 		       digito1 = (entrada[i] >> 4) & GetHO;
-		       System.out.println(digito1);
+//		       System.out.println(digito1);
 			   saida = (saida * 10) + digito1;
 			   digito2 = entrada[i] & GetLO;        // Obtiene el último nibble
 		       saida = (saida * 10) + digito2;
@@ -346,9 +352,37 @@ public class IFileCBLImpl implements IFileCBL {
 		return comp3;
 	}
     
+    public double decimal(byte[] bytes, String stringS9) {
+    	final int Negativo  = 0x0D;// Valor convertido 
+    	final int GetHO     = 0x0F;      // para obter los High Order bits
+    	final int GetLO     = 0x0F;
+    	String salidaString = "";
+    	String stringV9     = "";  
+    	long salida          = 0;
+    	long s9             = 0;
+    	long v9             = 0;
+	    int digito1         = 0;                 // Guarda el valor del primer nibble
+	    int digito2         = 0;
+	    double comp         = 0;
+	    
+	    for(int i=0; i < bytes.length; i++) {
+	    	digito1 = (bytes[i] >> 4) & GetHO;
+//	    	System.out.println(digito1);
+	    	salida = (salida * 10) + digito1;
+	    	digito2 = bytes[i] & GetLO;        // Obtiene el último nibble
+		    salida = (salida * 10) + digito2;
+	    }
+	    
+	    v9           = salida;
+		stringV9     = String.valueOf(v9);
+		salidaString = stringS9 + "." + stringV9;
+		comp         = Double.parseDouble(salidaString);
+    	return comp; 
+    }
+    
 
     @Override
-    public Long stringComp3(String cadena, int digitos, int posicion) throws Exception {
+    public Long stringComp3(String att, String cadena, int digitos, int posicion) throws Exception {
     	if(Variables.todoscaracteres==0) {
 			posicion+=2;
 		}
@@ -358,7 +392,7 @@ public class IFileCBLImpl implements IFileCBL {
 			}
 		}
 		int numbytes=0;
-		char[] flujochar= new char[2000000];
+		char[] flujochar = new char[2000000];
 		String subca="";
 		long comp3=0;
 		
@@ -374,16 +408,19 @@ public class IFileCBLImpl implements IFileCBL {
 			Variables.bait=l;
 			
 		}
-		System.out.println("Subca= "+subca);
+//		System.out.println("Subca= "+subca);
 		comp3=comp3(subca.getBytes());
 		
 		Variables.bait++;
 		Variables.todoscaracteres=3;
+//		System.out.println("Variables bait = " + Variables.bait);
+//		System.out.println(att);
 		return comp3;
     }
 
     @Override
     public Long comp3(byte[] input) throws Exception {
+    	Variables.comp3 = 1;
         final int Positivo = 0x0C;      // ultimo nibble del campo positivo
         final int Negativo = 0x0D;      // ultimo nibble del campo negativo
         final int SemSinal = 0x0F;      // ultimo nibble del campo sin signo
@@ -434,33 +471,53 @@ public class IFileCBLImpl implements IFileCBL {
     	List<String> values = new ArrayList<>();
 		//---Leer archivo 
     	while(bait != -1) {
+//    		p.out.println((char)bait + " " + bait + " --------");
     		if((bait == 6 || bait == 70 || bait == 71) && !count && !leer) {//--- Encuentra byte 6, 70, 71
+//    			p.out.println(bait + " --- " + (char)bait);
     			count = true;
     		} else if(count && !leer) {//--- Comienza a contar cuatro veces 0
     			if(bait != baitTemp) {
     				length = 0;
     				count  = false;
+//    				p.out.println("Longitud es 0");
     			}
+//    			p.out.println("Estoy validando si " + bait + " es == 0");
     			if(bait == 0) {
     				length++;
+//    				p.out.println(bait + " Bait es 0 --- " + length);
     				if(length == 4) {
     					leer   = true;
     					count  = false;
     					length = 0;
+//    					p.out.println("Ya son cuatro veces 0");
     				}
     			}//--- end (bait == 0)
-    			if(!count) length = 0;
+    			if(!count) {
+    				length = 0;
+//    				count = true;
+//    				if(leer) {
+//    					count = false;
+//    				}
+    			}
     			baitTemp = bait;
+//    			p.out.println(baitTemp);
     		} else if(leer && !count) {//--- Comienza a guardar bytes en la cadena
+//    			p.out.println("Espezar a guardar" + " : " +bait + " *-- " + (char)bait);
     			if(bait != baitTemp) length = 0;
     			if(bait == 255) {
+//    				p.out.println("Es 255 " + length);
     				length++;
-    				if(length == 10) detener = true;
+    				if(length == 10) { 
+    					detener = true;
+//    					p.out.println("Ya son diez veces 255");
+    				}
     			}//--- end (bait == 255)
     			if(!detener) {
+//    				p.out.println(" GUARDANDO...--- " + (char)bait);
     				cadena   += (char)bait;
     				baitTemp = bait;
     			} else {
+//    				p.out.println("AGREGAR CADENA---");
     				values.add(cadena);
     				count   = false;
     				leer    = false;
@@ -481,6 +538,86 @@ public class IFileCBLImpl implements IFileCBL {
 			mapKeysCBL.put(attribute.getName(), new ValuesAttribute());
 		});
 		return mapKeysCBL;
+	}
+
+	@Override
+	public HashMap<String, ValuesAttribute> mapValues(List<Attribute> attributes, List<String> blocks,
+			HashMap<String, ValuesAttribute> mapKeysCBL){
+		position = 7;
+		HashMap<String, ValuesAttribute> mapValues = mapKeysCBL;
+		blocks.forEach(block -> {
+			attributes.forEach(attribute ->{
+				mapValues.entrySet().forEach(entrySet -> {
+					switch(attribute.getDataType()) {
+						case Integer:
+							if(entrySet.getKey() == attribute.getName()) {
+								try {
+									double bytesAttribute = bytesCalculate(attribute.getBytes());
+									String valueComp = block.substring(position, (int)(position + bytesAttribute));
+									String value     = String.valueOf(comp3(valueComp.getBytes()));
+									entrySet.getValue().addValue(value);
+									position += (int) bytesCalculate(attribute.getBytes());
+								} catch (Exception e) {
+									// TODO Auto-generated catch block
+									e.printStackTrace();
+								}
+							}
+							break;
+						case String:
+							if(entrySet.getKey() == attribute.getName()) {
+								try {
+									double bytesAttribute = bytesCalculate(attribute.getBytes());
+									String value          = block.substring(position, (int)(position + bytesAttribute));
+									entrySet.getValue().addValue(value);
+									position += (int) bytesCalculate(attribute.getBytes());
+								} catch (Exception e) {
+									// TODO Auto-generated catch block
+									e.printStackTrace();
+								}
+							}
+							break;
+						case Double:
+							if(entrySet.getKey() == attribute.getName()) {
+								try {
+									int bytesAttributeS9    = (int) bytesCalculate(attribute.getBytes());
+									int bytesAttributeV9    = (int) bytesCalculate(attribute.getBytesDecimal());
+									String blockComp        = block.substring(position, (int) (position + bytesAttributeS9));
+									String valueComp3       = String.valueOf(comp3(blockComp.getBytes()));
+									String blockCompDecimal = block.substring((position + (int) bytesAttributeS9), (position + (int) bytesAttributeS9 + (int) bytesAttributeV9));
+									String value            = String.valueOf(decimal(blockCompDecimal.getBytes(), valueComp3));
+									entrySet.getValue().addValue(value);
+									position += (bytesAttributeS9 + bytesAttributeV9);
+								} catch (Exception e) {
+									// TODO Auto-generated catch block
+									e.printStackTrace();
+								}
+							}
+							break;
+					default:
+						break;
+					}
+				});				
+			});
+		});
+		return mapValues;
+	}
+
+	@Override
+	public void readFileDAT(InputStream fileDAT) throws IOException {
+		boolean count       = false;
+    	boolean save        = false;
+    	boolean stop        = false;
+    	int length          = 0;
+    	int baitAnt         = -1;
+    	int bait            = fileDAT.read();
+    	String registro     = new String();
+    	List<String> values = new ArrayList<>();
+    	
+    	while(bait != -1) {
+    		p.out.println(length + ".-" + bait + ": " +(char)bait);
+    		bait = fileDAT.read();
+    		length++;
+    	}
 	}
 }
 
