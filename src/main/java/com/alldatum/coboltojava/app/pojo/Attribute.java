@@ -11,7 +11,15 @@ public class Attribute {
     private boolean withComp;
     private boolean withDecimal;
     private Integer bytesDecimal;
+    private String dataTypeList;
 
+	public String getDataTypeList() {
+		return dataTypeList;
+	}
+
+	public void setDataTypeList(String dataTypeList) {
+		this.dataTypeList = dataTypeList;
+	}
 
 	public Integer getBytesDecimal() { 
 		return bytesDecimal; 

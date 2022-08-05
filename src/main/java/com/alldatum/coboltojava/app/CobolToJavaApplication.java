@@ -50,7 +50,7 @@ public class CobolToJavaApplication implements CommandLineRunner{
 		 List<String> values = iFileCBLImpl.values(fileDat);
 		 HashMap<String, ValuesAttribute> mapValues = iFileCBLImpl.mapValues(attributes, values, mapValuesDAT);
 		 
-		 iFileCBLImpl.readFileDAT(fileDat);
+//		 iFileCBLImpl.readFileDAT(fileDat);
 		 
 		 
 		 
@@ -60,11 +60,12 @@ public class CobolToJavaApplication implements CommandLineRunner{
 //			 });				 
 //		 }
 		 
-//		 attributes.forEach(attribute -> {
-//			 p.out.println(attribute.getName()
-//					 .concat(" ").concat(String.valueOf(attribute.getBytes()))
-//					 .concat(" ").concat(String.valueOf(attribute.getDataType())));
-//		 });
+		 attributes.forEach(attribute -> {
+			 p.out.println(attribute.getName()
+					 .concat(" ").concat(String.valueOf(attribute.getBytes()))
+					 .concat(" ").concat(String.valueOf(attribute.getDataType()))
+					 .concat(" ").concat(String.valueOf(attribute.getBytesDecimal())));
+		 });
 		 
 		 /*
 		// int cadenaLength = 0;
